@@ -6,5 +6,19 @@
 <script src="{{ asset('assets/demo/chart-bar-demo.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="{{ asset('js/datatables-simple-demo.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    let option = {
+        animation:true,
+        autohide:true,
+        delay:2000
+    };
+    const toastElList = document.querySelectorAll('.toast');
+    const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, option));
+    const btnClose = document.querySelectorAll('.btn-close');
+    btnClose.addEventListener('hidden.bs.toast',()=>{
+
+    })
+</script>
 </body>
 </html>

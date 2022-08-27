@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('username');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->enum('level',['admin','siswa']);
+        Schema::create('instruktur', function (Blueprint $table) {
+            $table->string('kd_instr',14)->primary();
+            $table->date('tgl_lhr');
+            $table->string('tpt_lhr',100);
+            $table->enum('jns_kel',['L','P']);
+            $table->text('alamat');
+            $table->string('no_telp');
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('instruktur');
     }
 };

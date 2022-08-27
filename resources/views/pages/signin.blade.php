@@ -15,14 +15,15 @@
                             <h6 class="card-title">LOGIN</h6>
                             <P>Welcome to SIASTI System</P>
                         </div>
-                        <form>
+                        <form action="{{ url('/login') }}" method="post">
+                            @csrf
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
-                                <label for="inputEmail">Email address</label>
+                                <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com" />
+                                <label for="email" >Email address</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
-                                <label for="inputPassword">Password</label>
+                                <input class="form-control" id="password" name="password" type="password" placeholder="Password" />
+                                <label for="password">Password</label>
                             </div>
                             <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
 
@@ -31,7 +32,7 @@
                         </form>
                     </div>
                     <div class="card-footer text-center py-3">
-                        <div class="small"><a href="{{ url('/signup') }}">Need an account? Sign up!</a></div>
+                        <div class="small"><a href="{{ url('/register') }}">Need an account? Sign up!</a></div>
                     </div>
                 </div>
             </div>

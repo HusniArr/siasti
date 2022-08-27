@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,8 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/', [HomeController::class,'index']);
-Route::get('/signin',function(){
-    return view('pages.signin');
-});
-Route::get('/signup',function(){
-    return view('pages.signup');
-});
+Route::get('/', [UserController::class,'login'])->name('login');
+Route::post('/login',[UserController::class,'authenticate']);
+Route::get('/register',[UserController::class,'create']);
+Route::post('/user/store',[UserController::class,'store']);
+Route::get('/home', [HomeController::class,'index'])->middleware('auth');

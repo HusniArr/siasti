@@ -3,22 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-
-
     public function index()
     {
-        // load view dashboard page
-        return view('pages.home');
+        //
     }
 
     /**
@@ -29,6 +27,29 @@ class HomeController extends Controller
     public function create()
     {
         //
+        return view('pages.signup');
+    }
+
+    public function login(){
+        return view('pages.signin');
+    }
+
+    public function authenticate(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('home');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
     }
 
     /**
@@ -40,6 +61,21 @@ class HomeController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'username'=>'required|max:20',
+            'email'=>'required|email',
+            'password'=>'required|confirmed|min:8',
+        ]);
+        $username = $request->username;
+        $email = $request->email;
+        $password = Hash::make($request->password);
+        DB::table('users')->insert([
+            'username' => $username,
+            'email' => $email,
+            'password' => $password,
+            'level' => 'admin'
+        ]);
+        return redirect('signup')->with('status','User berhasil ditambahkan. Silahkan login menggunakan akun baru.');
     }
 
     /**
