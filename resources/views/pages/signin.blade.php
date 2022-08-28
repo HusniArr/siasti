@@ -1,6 +1,25 @@
 @extends('template.layout-auth')
 
 @section('auth-content')
+
+@if(Session::has('error'))
+<div class="position-relative" aria-live="polite" aria-atomic="true" id="myToast">
+    <div class="toast-container top-0 end-0 p-3">
+        <div class="d-flex">
+            <div  class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="2000">
+                <div class="toast-body bg-danger text-white">
+                    <i class="fas fa-circle-exclamation fa-fw"></i>
+                    {{ Session::get('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+@endif
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5">
@@ -18,12 +37,18 @@
                         <form action="{{ url('/login') }}" method="post">
                             @csrf
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com" />
+                                <input class="form-control @error('email') is-invalid @enderror" id="email" name="email" type="email" autocomplete="off" placeholder="name@example.com" />
                                 <label for="email" >Email address</label>
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="password" name="password" type="password" placeholder="Password" />
+                                <input class="form-control @error('password') is-invalid @enderror" id="password" name="password" type="password" autocomplete="off" placeholder="Password" />
                                 <label for="password">Password</label>
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
 

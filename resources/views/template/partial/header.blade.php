@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>LKP Techno Informatika</title>
+        <title>@yield('title',$title)</title>
         <link rel="shortcut icon" href="{{ asset('logo/techno-informatika.png') }}" type="image/x-icon">
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="{{ asset('css/styles.css')}}" rel="stylesheet" />

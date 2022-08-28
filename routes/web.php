@@ -15,8 +15,9 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', [UserController::class,'login'])->name('login');
+Route::get('/', [UserController::class,'login'])->name('login')->middleware('guest');
 Route::post('/login',[UserController::class,'authenticate']);
+Route::get('/logout',[UserController::class,'logout']);
 Route::get('/register',[UserController::class,'create']);
 Route::post('/user/store',[UserController::class,'store']);
-Route::get('/home', [HomeController::class,'index'])->middleware('auth');
+Route::get('/dashboard', [HomeController::class,'index'])->name('dashboard')->middleware('auth');

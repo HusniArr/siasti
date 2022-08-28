@@ -14,11 +14,15 @@ class HomeController extends Controller
      */
 
 
-
     public function index()
     {
-        // load view dashboard page
-        return view('pages.home');
+        if(Auth::user()){
+            // load view dashboard page
+            $data['title'] = 'LKP Techno Informatika';
+            return view('pages.home',$data);
+        }else{
+            return redirect('/');
+        }
     }
 
     /**

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -27,29 +28,44 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('pages.signup');
+        $data['title'] = 'Register User';
+        return view('pages.signup',$data);
     }
 
     public function login(){
-        return view('pages.signin');
+        $data['title'] = 'Login User';
+        return view('pages.signin',$data);
+    }
+
+    public function logout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
     }
 
     public function authenticate(Request $request)
     {
-        $credentials = $request->validate([
+        $rules = [
             'email' => ['required', 'email'],
             'password' => ['required'],
-        ]);
+             ];
+        $messages = [
+            'email.required'=>'Masukan Email Anda',
+            'email.email'=>'Email tidak sesuai',
+            'password.required'=>'Masukan password Anda'
+        ];
+        $credentials = $request->validate($rules,$messages);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('home');
+            return redirect()->intended('dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        return back()->with(
+            'error' , 'Periksa kembali email dan password anda',
+        );
     }
 
     /**
@@ -69,12 +85,13 @@ class UserController extends Controller
         $username = $request->username;
         $email = $request->email;
         $password = Hash::make($request->password);
-        DB::table('users')->insert([
+        $user = new User([
             'username' => $username,
             'email' => $email,
             'password' => $password,
-            'level' => 'admin'
+            'level' => 'siswa'
         ]);
+        $user->save();
         return redirect('signup')->with('status','User berhasil ditambahkan. Silahkan login menggunakan akun baru.');
     }
 

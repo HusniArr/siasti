@@ -6,7 +6,7 @@
 <div class="position-relative" aria-live="polite" aria-atomic="true" id="myToast">
     <div class="toast-container top-0 end-0 p-3">
         <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" >
-            <div class="toast-body">
+            <div class="toast-body  bg-success text-white">
                 <i class="fas fa-circle-check fa-fw"></i>
                 {{ Session::get('status') }}
                 {{-- <button type="button" class="btn-close" data-bs-dismiss="role" aria-label="Close" data-bs-target="#myToast"></button> --}}
