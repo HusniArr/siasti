@@ -77,11 +77,20 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        $validated = $request->validate([
-            'username'=>'required|max:20',
+        $rules = [
+            'username'=>'required|max:15',
             'email'=>'required|email',
             'password'=>'required|confirmed|min:8',
-        ]);
+             ];
+        $messages = [
+            'username.required'=>'Masukan username Anda',
+            'username.max'=>'Maksimal panjang 15 karater ',
+            'email.required'=>'Masukan Email Anda',
+            'email.email'=>'Email tidak sesuai',
+            'password.required'=>'Masukan password Anda',
+            'password.confirmed'=>'Kedua password harus sama'
+        ];
+        $request->validate($rules,$messages);
         $username = $request->username;
         $email = $request->email;
         $password = Hash::make($request->password);

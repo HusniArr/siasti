@@ -1,6 +1,6 @@
 <div class="sb-sidenav-footer">
     <div class="small">Logged in as:</div>
-    Admin
+    {{ Auth::user()->level }}
 </div>
 </nav>
 </div>

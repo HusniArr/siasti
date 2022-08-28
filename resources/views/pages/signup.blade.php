@@ -36,21 +36,21 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating mb-2">
-                                    <input class="form-control @error('name') is-invalid @enderror" id="username" name="username" type="text" placeholder="Enter your name" autocomplete="off"/>
+                                    <input class="form-control @error('username') is-invalid @enderror" id="username" name="username" type="text" placeholder="Enter your name" autocomplete="off"/>
                                     <label for="name">Username</label>
+                                    @error('username')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                @error('username')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-2">
-                                    <input class="form-control @error('email') is-invalid @enderror" id="email" name="email" type="email" placeholder="name@example.com" autocomplete="off"/>
+                                    <input class="form-control @error('email') is-invalid @enderror" id="email" name="email" type="text" placeholder="name@example.com" autocomplete="off"/>
                                     <label for="email">Email</label>
+                                    @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                @error('email')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
                             </div>
                         </div>
 
@@ -59,10 +59,10 @@
                                 <div class="form-floating mb-2">
                                     <input class="form-control @error('password') is-invalid @enderror" id="password" name="password" type="password" placeholder="Create a password" />
                                     <label for="password">Password</label>
+                                    @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                @error('password')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-2">
