@@ -3,26 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class InstructorController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-
     public function index()
     {
-        if(Auth::user()){
-            // load view dashboard page
-            $data['title'] = 'LKP Techno Informatika';
-            return view('pages.home',$data);
-        }else{
-            return redirect('/login');
-        }
+        //
+        $data['title'] = 'Instruktur';
+        return view('pages.instruktur.index',$data);
     }
 
     /**
@@ -33,6 +26,8 @@ class HomeController extends Controller
     public function create()
     {
         //
+        $data['title'] = 'Tambah Instruktur';
+        return view('pages.intruktur.create',$data);
     }
 
     /**

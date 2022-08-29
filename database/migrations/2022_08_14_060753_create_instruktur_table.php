@@ -15,11 +15,13 @@ return new class extends Migration
     {
         Schema::create('instruktur', function (Blueprint $table) {
             $table->string('kd_instr',14)->primary();
+            $table->string('nm_instr',150);
             $table->date('tgl_lhr');
             $table->string('tpt_lhr',100);
             $table->enum('jns_kel',['L','P']);
             $table->text('alamat');
             $table->string('no_telp');
+            $table->string('gbr_instr');
         });
     }
 

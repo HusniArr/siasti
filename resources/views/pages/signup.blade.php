@@ -3,13 +3,28 @@
 @section('auth-content')
 
 @if(Session::has('status'))
-<div class="position-relative" aria-live="polite" aria-atomic="true" id="myToast">
+<div class="position-relative" aria-live="polite" aria-atomic="true">
     <div class="toast-container top-0 end-0 p-3">
-        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" >
-            <div class="toast-body  bg-success text-white">
+        <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="2000" >
+            <div class="toast-body  bg-primary text-white">
                 <i class="fas fa-circle-check fa-fw"></i>
                 {{ Session::get('status') }}
-                {{-- <button type="button" class="btn-close" data-bs-dismiss="role" aria-label="Close" data-bs-target="#myToast"></button> --}}
+                <button type="button" class="btn-close btn-sm btn-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+@endif
+@if(Session::has('error'))
+<div class="position-relative" aria-live="polite" aria-atomic="true">
+    <div class="toast-container top-0 end-0 p-3">
+        <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="2000" >
+            <div class="toast-body  bg-danger text-white">
+                <i class="fas fa-circle-check fa-fw"></i>
+                {{ Session::get('error') }}
+                <button type="button" class="btn-close btn-sm btn-white" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
 

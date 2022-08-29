@@ -41,7 +41,7 @@ class UserController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect('/login');
     }
 
     public function authenticate(Request $request)
@@ -60,7 +60,7 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard');
+            return redirect()->intended('/');
         }
 
         return back()->with(
@@ -94,14 +94,21 @@ class UserController extends Controller
         $username = $request->username;
         $email = $request->email;
         $password = Hash::make($request->password);
-        $user = new User([
-            'username' => $username,
-            'email' => $email,
-            'password' => $password,
-            'level' => 'siswa'
-        ]);
-        $user->save();
-        return redirect('signup')->with('status','User berhasil ditambahkan. Silahkan login menggunakan akun baru.');
+        $checkEmailUser = DB::table('users')->where('email',$email)->first();
+        $checkUsername = DB::table('users')->where('username',$username)->first();
+        if($checkEmailUser || $checkUsername){
+            return redirect('register')->with('error','Username atau Email anda sudah terdaftar di sistem. Harap masukan email baru');
+        }else{
+            $user = new User([
+                'username' => $username,
+                'email' => $email,
+                'password' => $password,
+                'level' => 'siswa'
+            ]);
+            $user->save();
+            return redirect('register')->with('status','User berhasil ditambahkan. Silahkan login menggunakan akun baru.');
+
+        }
     }
 
     /**
