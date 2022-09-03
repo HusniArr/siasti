@@ -3,9 +3,9 @@
     * Copyright 2013-2022 Start Bootstrap
     * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
     */
-    // 
+    //
 // Scripts
-// 
+//
 
 window.addEventListener('DOMContentLoaded', event => {
 
@@ -24,3 +24,18 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
+
+$(document).on('change', '.file-input', function() {
+
+
+    var filesCount = $(this)[0].files.length;
+
+    var textbox = $(this).prev();
+
+    if (filesCount === 1) {
+      var fileName = $(this).val().split('\\').pop();
+      textbox.text(fileName);
+    } else {
+      textbox.text(filesCount + ' files selected');
+    }
+  });

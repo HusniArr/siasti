@@ -52,7 +52,7 @@
                             </div>
                             <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
 
-                                <button class="btn btn-primary btn-md" href="index.html"><i class="fas fa-sign-in-alt"></i> Login</button>
+                                <button type="submit" class="btn btn-primary btn-md"><i class="fas fa-sign-in-alt"></i> Login</button>
                             </div>
                         </form>
                     </div>

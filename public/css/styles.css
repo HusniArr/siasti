@@ -2484,11 +2484,6 @@ textarea.form-control-lg {
   background-position: center;
   background-size: contain;
   border: 1px solid rgba(0, 0, 0, 0.25);
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  -webkit-print-color-adjust: exact;
-          color-adjust: exact;
 }
 .form-check-input[type=checkbox] {
   border-radius: 0.25em;
@@ -11704,3 +11699,48 @@ body {
   font-size: 0.75rem;
   border-radius: 0.25rem !important;
 }
+
+/* upload file  */
+.file-drop-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: auto;
+    max-width: 100%;
+    padding: 25px;
+    border: 1px dashed rgba(34, 219, 105, 0.4);
+    border-radius: 3px;
+    transition: 0.2s;
+
+  }
+
+  .choose-file-button {
+    flex-shrink: 0;
+    background-color: rgba(31, 87, 243, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    padding: 8px 15px;
+    margin-right: 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  .file-message {
+    font-size: small;
+    font-weight: 300;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .file-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    opacity: 0;
+
+  }

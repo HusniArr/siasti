@@ -18,7 +18,7 @@
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="#!"><i class="fas fa-gear fa-fw"></i>Pengaturan</a></li>
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="{{ url('/logout')}}"><i class="fas fa-right-from-bracket fa-fw"></i>Logout</a></li>
+                    <li><a class="dropdown-item" href="{{ url('/logout')}}"><i class="fas fa-right-from-bracket fa-fw"></i>Keluar</a></li>
                 </ul>
             </li>
         </ul>

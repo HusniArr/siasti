@@ -23,6 +23,8 @@ Route::get('logout',[UserController::class,'logout']);
 Route::get('register',[UserController::class,'create']);
 Route::post('user/store',[UserController::class,'store']);
 Route::get('instruktur',[InstructorController::class,'index'])->name('instruktur')->middleware('admin');
+Route::get('instruktur/tambah',[InstructorController::class,'create'])->name('instruktur.tambah')->middleware('admin');
+Route::post('instruktur/tambah',[InstructorController::class,'store'])->name('instruktur.simpan');
 Route::get('siswa',function(){
     $data['title'] = 'Siswa';
     return view('pages.siswa.index',$data);
