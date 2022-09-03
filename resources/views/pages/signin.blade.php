@@ -10,7 +10,7 @@
                 <div class="toast-body bg-danger text-white">
                     <i class="fas fa-circle-exclamation fa-fw"></i>
                     {{ Session::get('error') }}
-                    <button type="button" class="btn-close text-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close text-white float-sm-end" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
 

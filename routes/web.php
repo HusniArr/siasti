@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InstructorController;
+use App\Models\Instructor;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,9 @@ Route::post('user/store',[UserController::class,'store']);
 Route::get('instruktur',[InstructorController::class,'index'])->name('instruktur')->middleware('admin');
 Route::get('instruktur/tambah',[InstructorController::class,'create'])->name('instruktur.tambah')->middleware('admin');
 Route::post('instruktur/tambah',[InstructorController::class,'store'])->name('instruktur.simpan');
+Route::get('instruktur/{kd_instr}/edit/',[InstructorController::class,'edit'])->name('instruktur.edit')->middleware('admin');
+Route::post('instruktur/{kd_instr}/edit',[InstructorController::class,'update']);
+Route::get('instruktur/{kd_instr}/hapus',[InstructorController::class,'destroy'])->middleware('admin');
 Route::get('siswa',function(){
     $data['title'] = 'Siswa';
     return view('pages.siswa.index',$data);

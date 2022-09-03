@@ -9,7 +9,7 @@
             <div class="toast-body  bg-primary text-white">
                 <i class="fas fa-circle-check fa-fw"></i>
                 {{ Session::get('status') }}
-                <button type="button" class="btn-close btn-sm btn-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-sm btn-white float-sm-end" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
 
