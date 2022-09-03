@@ -12,10 +12,14 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-person-chalkboard text-white"></i></div>
                         Instruktur
                     </a>
-                    <a class="nav-link collapsed text-white" href="{{ route('siswa') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-user-graduate text-white"></i></div>
-                        Siswa
-                    </a>
+                    @if (Auth::user()->level == 'admin')
+
+                        <a class="nav-link collapsed text-white" href="{{ route('siswa') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user-graduate text-white"></i></div>
+                            Siswa
+                        </a>
+
+                    @endif
                     <a class="nav-link collapsed text-white" href="#">
                         <div class="sb-nav-link-icon"><i class="fas fa-book-open text-white"></i></div>
                         Kursus

@@ -46,7 +46,7 @@
                         <h6 class="card-title">CREATE ACCOUNT</h6>
                         <P>Welcome to SIASTI System</P>
                     </div>
-                    <form method="POST" action="{{ url('user/store')}}">
+                    <form method="POST" action="{{ route('store.admin')}}">
                         @csrf
                         <div class="row mb-3">
                             <div class="col-md-6">
@@ -68,26 +68,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-floating mb-2">
-                                    <input class="form-control @error('nm_siswa') is-invalid @enderror" id="nm_siswa" name="nm_siswa" type="text" placeholder="Enter your name" autocomplete="off"/>
-                                    <label for="name">Nama lengkap</label>
-                                    @error('nm_siswa')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating mb-2">
-                                    <input class="form-control @error('no_telp') is-invalid @enderror" id="no_telp" name="no_telp" type="text" placeholder="name@example.com" autocomplete="off"/>
-                                    <label for="no_telp">No.telp</label>
-                                    @error('no_telp')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating mb-2">

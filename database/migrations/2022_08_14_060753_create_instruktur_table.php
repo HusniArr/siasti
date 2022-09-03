@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('jns_kel',['L','P']);
             $table->text('alamat');
             $table->string('no_telp');
-            $table->string('gbr_instr');
+            $table->string('gbr_instr')->nullable();
         });
     }
 

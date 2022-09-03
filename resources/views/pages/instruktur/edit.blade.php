@@ -109,6 +109,7 @@
                     <div class="file-drop-area">
                         <span class="choose-file-button">Upload Gambar</span>
                         <span class="file-message">Drag dan drop file disini</span>
+                        <input type="hidden" name="gbr_lama" id="gbr_lama" value="{{ $row->gbr_instr }}">
                         <input class="file-input" type="file" id="gbr_instr" name="gbr_instr" accept="image/*">
                       </div>
                 </div>

@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use App\Models\User;
+use App\Models\Student;
 
 class UserController extends Controller
 {
@@ -30,6 +32,11 @@ class UserController extends Controller
         //
         $data['title'] = 'Register User';
         return view('pages.signup',$data);
+    }
+
+    public function createAdmin(){
+        $data['title'] = 'Register Admin';
+        return view('pages.signupAdmin',$data);
     }
 
     public function login(){
@@ -74,9 +81,8 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+
+    public function saveAdmin(Request $request){
         $rules = [
             'username'=>'required|max:15',
             'email'=>'required|email',
@@ -103,9 +109,57 @@ class UserController extends Controller
                 'username' => $username,
                 'email' => $email,
                 'password' => $password,
+                'level' => 'admin'
+            ]);
+            $user->save();
+            return redirect('register')->with('status','User berhasil ditambahkan. Silahkan login menggunakan akun baru.');
+
+        }
+    }
+
+    public function store(Request $request)
+    {
+        //
+        $rules = [
+            'username'=>'required|max:15',
+            'email'=>'required|email',
+            'password'=>'required|confirmed|min:8',
+            'nm_siswa'=>'required',
+            'no_telp'=>'required'
+             ];
+        $messages = [
+            'username.required'=>'Masukan username',
+            'username.max'=>'Maksimal panjang 15 karater ',
+            'email.required'=>'Masukan alamat Email',
+            'email.email'=>'Email tidak sesuai',
+            'nm_siswa.required'=>'Masukan nama',
+            'no_telp.required'=>'Masukan nomor telepon atau hp',
+            'password.required'=>'Masukan password',
+            'password.confirmed'=>'Kedua password harus sama'
+        ];
+        $request->validate($rules,$messages);
+        $username = $request->username;
+        $email = $request->email;
+        $password = Hash::make($request->password);
+        $checkEmailUser = DB::table('users')->where('email',$email)->first();
+        $checkUsername = DB::table('users')->where('username',$username)->first();
+        if($checkEmailUser || $checkUsername){
+            return redirect('register')->with('error','Username atau Email anda sudah terdaftar di sistem. Harap masukan email baru');
+        }else{
+            $user = new User([
+                'username' => $username,
+                'email' => $email,
+                'password' => $password,
                 'level' => 'siswa'
             ]);
             $user->save();
+            $student = new Student([
+                'id'=>Str::random(40),
+                'nm_siswa'=>$request->nm_siswa,
+                'no_telp'=>$request->no_telp,
+                'id_user'=>$user->id
+            ]);
+            $student->save();
             return redirect('register')->with('status','User berhasil ditambahkan. Silahkan login menggunakan akun baru.');
 
         }

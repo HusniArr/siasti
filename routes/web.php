@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\StudentController;
 use App\Models\Instructor;
 
 /*
@@ -21,18 +22,17 @@ Route::get('/', [HomeController::class,'index'])->name('dashboard')->middleware(
 Route::get('login', [UserController::class,'login'])->name('login')->middleware('guest');
 Route::post('login',[UserController::class,'authenticate']);
 Route::get('logout',[UserController::class,'logout']);
+Route::get('register/admin',[UserController::class,'createAdmin']);
 Route::get('register',[UserController::class,'create']);
 Route::post('user/store',[UserController::class,'store']);
+Route::post('admin/store',[UserController::class,'saveAdmin'])->name('store.admin');
 Route::get('instruktur',[InstructorController::class,'index'])->name('instruktur')->middleware('admin');
 Route::get('instruktur/tambah',[InstructorController::class,'create'])->name('instruktur.tambah')->middleware('admin');
 Route::post('instruktur/tambah',[InstructorController::class,'store'])->name('instruktur.simpan');
 Route::get('instruktur/{kd_instr}/edit/',[InstructorController::class,'edit'])->name('instruktur.edit')->middleware('admin');
 Route::post('instruktur/{kd_instr}/edit',[InstructorController::class,'update']);
 Route::get('instruktur/{kd_instr}/hapus',[InstructorController::class,'destroy'])->middleware('admin');
-Route::get('siswa',function(){
-    $data['title'] = 'Siswa';
-    return view('pages.siswa.index',$data);
-})->name('siswa')->middleware('admin');
+Route::get('siswa',[StudentController::class,'index'])->name('siswa')->middleware('admin');
 Route::get('403',function(){
     return view('pages.error403');
 })->name('error.403');
