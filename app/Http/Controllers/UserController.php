@@ -106,13 +106,14 @@ class UserController extends Controller
             return redirect('register')->with('error','Username atau Email anda sudah terdaftar di sistem. Harap masukan email baru');
         }else{
             $user = new User([
+                'id'=>Str::random(40),
                 'username' => $username,
                 'email' => $email,
                 'password' => $password,
                 'level' => 'admin'
             ]);
             $user->save();
-            return redirect('register')->with('status','User berhasil ditambahkan. Silahkan login menggunakan akun baru.');
+            return back()->with('status','User berhasil ditambahkan. Silahkan login menggunakan akun baru.');
 
         }
     }
@@ -137,26 +138,25 @@ class UserController extends Controller
             'password.required'=>'Masukan password',
             'password.confirmed'=>'Kedua password harus sama'
         ];
-        $request->validate($rules,$messages);
-        $username = $request->username;
-        $email = $request->email;
+        $validate= $request->validate($rules,$messages);
         $password = Hash::make($request->password);
-        $checkEmailUser = DB::table('users')->where('email',$email)->first();
-        $checkUsername = DB::table('users')->where('username',$username)->first();
+        $checkEmailUser = DB::table('users')->where('email',$validate['email'])->first();
+        $checkUsername = DB::table('users')->where('username',$validate['username'])->first();
         if($checkEmailUser || $checkUsername){
             return redirect('register')->with('error','Username atau Email anda sudah terdaftar di sistem. Harap masukan email baru');
         }else{
             $user = new User([
-                'username' => $username,
-                'email' => $email,
+                'id'=>Str::random(40),
+                'username' => $validate['username'],
+                'email' => $validate['email'],
                 'password' => $password,
                 'level' => 'siswa'
             ]);
             $user->save();
             $student = new Student([
-                'id'=>Str::random(40),
-                'nm_siswa'=>$request->nm_siswa,
-                'no_telp'=>$request->no_telp,
+                'id_siswa'=>Str::random(40),
+                'nm_siswa'=>$validate['nm_siswa'],
+                'no_telp'=>$validate['no_telp'],
                 'id_user'=>$user->id
             ]);
             $student->save();

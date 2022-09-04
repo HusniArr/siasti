@@ -13,6 +13,8 @@ class Student extends Model
     public $timestamps = false;
     protected $fillable = [
         'id',
+        'nm_siswa',
+        'no_telp',
         'id_user'
     ];
 }

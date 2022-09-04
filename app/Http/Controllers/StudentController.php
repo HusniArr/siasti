@@ -59,9 +59,12 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function edit(Student $student)
+    public function edit($id_siswa)
     {
         //
+        $data['title'] = 'Edit Siswa';
+        $data['row'] = Student::find(['id'=>$id_siswa]);
+        return view('pages.siswa.edit',$data);
     }
 
     /**

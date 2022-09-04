@@ -46,7 +46,7 @@
                         <h6 class="card-title">CREATE ACCOUNT</h6>
                         <P>Welcome to SIASTI System</P>
                     </div>
-                    <form method="POST" action="{{ url('user/store')}}">
+                    <form method="POST" action="{{ route('store.siswa') }}">
                         @csrf
                         <div class="row mb-3">
                             <div class="col-md-6">
