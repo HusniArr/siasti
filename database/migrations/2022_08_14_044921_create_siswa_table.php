@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('siswa', function (Blueprint $table) {
-            $table->string('id_siswa')->primary();
+            $table->string('id')->primary();
             $table->string('nis',12)->nullable();
             $table->string('nm_siswa',150);
             $table->date('tgl_lhr')->nullable();

@@ -106,7 +106,6 @@ class UserController extends Controller
             return redirect('register')->with('error','Username atau Email anda sudah terdaftar di sistem. Harap masukan email baru');
         }else{
             $user = new User([
-                'id'=>Str::random(40),
                 'username' => $username,
                 'email' => $email,
                 'password' => $password,
@@ -145,16 +144,18 @@ class UserController extends Controller
         if($checkEmailUser || $checkUsername){
             return redirect('register')->with('error','Username atau Email anda sudah terdaftar di sistem. Harap masukan email baru');
         }else{
+            // insert user
             $user = new User([
-                'id'=>Str::random(40),
                 'username' => $validate['username'],
                 'email' => $validate['email'],
                 'password' => $password,
                 'level' => 'siswa'
             ]);
             $user->save();
+
+            //insert siswa
             $student = new Student([
-                'id_siswa'=>Str::random(40),
+                'id'=>Str::random(40),
                 'nm_siswa'=>$validate['nm_siswa'],
                 'no_telp'=>$validate['no_telp'],
                 'id_user'=>$user->id
