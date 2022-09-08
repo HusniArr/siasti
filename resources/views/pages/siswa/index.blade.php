@@ -17,12 +17,12 @@
 
     </div>
     @endif
-    <h1 class="mt-4">Instruktur</h1>
+    <h1 class="mt-4">Siswa</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
         <li class="breadcrumb-item active">Siswa</li>
     </ol>
-    <div class="mb-4"><a href="/instruktur/tambah" class="btn btn-sm btn-outline-primary"><i class="fas fa-plus"></i>Tambah</a></div>
+    <div class="mb-4"><a href="{{ route('siswa.tambah') }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-plus"></i>Tambah</a></div>
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
@@ -38,22 +38,24 @@
                         <th>Tempat, tanggal lahir</th>
                         <th>No telepon</th>
                         <th>Alamat</th>
+                        <th>Gambar</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                   @foreach ($students as $row)
+                   @foreach ($students as $student)
 
                         <tr>
                             <td>{{ $loop->iteration }}.</td>
-                            <td>{{ $row->nis }}</td>
-                            <td>{{ $row->nm_siswa }}</td>
-                            <td>{{ $row->tpt_lhr }}, {{ $row->tgl_lhr }}</td>
-                            <td>{{ $row->no_telp }}</td>
-                            <td>{{ $row->alamat }}</td>
+                            <td>{{ $student->nis }}</td>
+                            <td>{{ $student->nm_siswa }}</td>
+                            <td>{{ $student->tpt_lhr }}, {{ $student->tgl_lhr }}</td>
+                            <td>{{ $student->no_telp }}</td>
+                            <td>{{ $student->alamat }}</td>
+                            <td>{{ asset('siswa/'.$student->gbr_siswa)}}</td>
                             <td>
-                                <a href="{{ url('siswa/'.$row->id.'/edit')}}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i>Edit</a>
-                                <a href="{{ url('siswa/'.$row->id.'/hapus')}}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash">Hapus</i></a>
+                                <a href="{{ url('siswa/'.$student->id_siswa.'/edit')}}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i>Edit</a>
+                                <a href="{{ url('siswa/'.$student->id_siswa.'/hapus')}}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash">Hapus</i></a>
                             </td>
                         </tr>
 

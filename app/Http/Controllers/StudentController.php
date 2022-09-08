@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
-use App\Http\Requests\StoreStudentRequest;
-use App\Http\Requests\UpdateStudentRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class StudentController extends Controller
 {
@@ -17,7 +21,7 @@ class StudentController extends Controller
     {
         //load semua data siswa
         $data['title'] = 'Siswa';
-        $data['students'] = Student::all();
+        $data['students'] = DB::select('select * from siswa');
         return view('pages.siswa.index',$data);
     }
 
@@ -28,20 +32,84 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        $data['title'] = 'Tambah siswa';
+        return view('pages.siswa.create',$data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreStudentRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreStudentRequest $request)
+
+    public function store(Request $request)
     {
-        //
+
+        $rules = [
+            'username'=>'required|max:15',
+            'email'=>'required|email',
+            'password'=>'required|confirmed|min:8',
+            'nis'=>'required|max:12',
+            'nm_siswa'=>'required',
+            'tgl_lhr'=>'required|date',
+            'tpt_lhr'=>'required',
+            'jns_kel'=>'required',
+            'alamat'=>'required',
+            'no_telp'=>'required',
+            'gbr_siswa'=>'image|file|max:1024',
+             ];
+        $messages = [
+            'username.required'=>'Masukan username',
+            'username.max'=>'Maksimal panjang 15 karater ',
+            'email.required'=>'Masukan Email',
+            'email.email'=>'Email tidak sesuai',
+            'password.required'=>'Masukan password',
+            'password.confirmed'=>'Kedua password harus sama',
+            'nis.required' => 'Masuka NIS',
+            'nis.max'=>'Maksimum NIS 12 digit',
+            'nm_siswa.required'=>'Masukan nama lengkap',
+            'tgl_lhr.required'=>'Masukan tanggal lahir',
+            'tgl_lhr.date'=>'Masukan format tanggal dengan benar',
+            'tpt_lhr.required'=>'Masukan tempat lahir',
+            'jns_kel.required'=>'Jenis kelamin belum dipilih',
+            'alamat.required'=>'Masukan alamat',
+            'no_telp.required'=>'Masukan nomor telepon atau hp',
+            'gbr_siswa.image'=>'Format harus jpg,jpeg,png',
+            'gbr_siswa.max'=>'Ukuran gambar 1MB'
+        ];
+        $validate= $request->validate($rules,$messages);
+        $password = Hash::make($request->password);
+        $checkEmailUser = DB::table('users')->where('email',$validate['email'])->first();
+        $checkUsername = DB::table('users')->where('username',$validate['username'])->first();
+        if($checkEmailUser || $checkUsername){
+            return back()->with('error','Username atau Email anda sudah ada');
+        }else{
+            // insert user
+            $user = new User([
+                'username' => $validate['username'],
+                'email' => $validate['email'],
+                'password' => $password,
+                'level' => 'siswa'
+            ]);
+            $user->save();
+
+            if($request->file('gbr_siswa')){
+                $validate['gbr_siswa'] = $request->file('gbr_siswa')->store('siswa');
+            }
+
+            //insert siswa
+            $student = new Student([
+                'id_siswa'=>Str::random(40),
+                'nis'=>$validate['nis'],
+                'nm_siswa'=>$validate['nm_siswa'],
+                'tgl_lhr' =>$validate['tgl_lhr'],
+                'tpt_lhr'=>$validate['tpt_lhr'],
+                'jns_kel'=>$validate['jns_kel'],
+                'alamat'=>$validate['alamat'],
+                'no_telp'=>$validate['no_telp'],
+                'gbr_siswa'=>$validate['gbr_siswa'],
+                'id_user'=>$user->id
+            ]);
+            $student->save();
+            return back()->with('message','Data siswa berhasil disimpan.');
     }
 
+}
     /**
      * Display the specified resource.
      *
@@ -62,8 +130,10 @@ class StudentController extends Controller
     public function edit($id_siswa)
     {
         //
+        $student = Student::find($id_siswa);
         $data['title'] = 'Edit Siswa';
-        $data['row'] = Student::find(['id'=>$id_siswa]);
+        $data['student'] = $student;
+        $data['user'] = User::find($student->id_user);
         return view('pages.siswa.edit',$data);
     }
 
@@ -74,19 +144,78 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateStudentRequest $request, Student $student)
+    public function update(Request $request, $id_siswa)
     {
-        //
-    }
+        //update data siswa
+        $rules = [
+            'password'=>'required|confirmed|min:8',
+            'nis'=>'required|max:12',
+            'nm_siswa'=>'required',
+            'tgl_lhr'=>'required|date',
+            'tpt_lhr'=>'required',
+            'jns_kel'=>'required',
+            'alamat'=>'required',
+            'no_telp'=>'required',
+            'gbr_siswa'=>'image|file|max:1024',
+             ];
+        $messages = [
+            'email.required'=>'Masukan Email',
+            'email.email'=>'Email tidak sesuai',
+            'password.required'=>'Masukan password',
+            'password.confirmed'=>'Kedua password harus sama',
+            'nis.required' => 'Masuka NIS',
+            'nis.max'=>'Maksimum NIS 12 digit',
+            'nm_siswa.required'=>'Masukan nama lengkap',
+            'tgl_lhr.required'=>'Masukan tanggal lahir',
+            'tgl_lhr.date'=>'Masukan format tanggal dengan benar',
+            'tpt_lhr.required'=>'Masukan tempat lahir',
+            'jns_kel.required'=>'Jenis kelamin belum dipilih',
+            'alamat.required'=>'Masukan alamat',
+            'no_telp.required'=>'Masukan nomor telepon atau hp',
+            'gbr_siswa.image'=>'Format harus jpg,jpeg,png',
+            'gbr_siswa.max'=>'Ukuran gambar 1MB'
+        ];
+        $validate= $request->validate($rules,$messages);
+        $password = Hash::make($request->password);
 
+        //update siswa
+        if($request->file('gbr_siswa')){
+            $validate['gbr_siswa'] = $request->file('gbr_siswa')->store('siswa');
+        }
+        Student::where('id_siswa',$id_siswa)
+        ->update([
+            'nis'=>$validate['nis'],
+            'nm_siswa'=>$validate['nm_siswa'],
+            'tgl_lhr' =>$validate['tgl_lhr'],
+            'tpt_lhr'=>$validate['tpt_lhr'],
+            'jns_kel'=>$validate['jns_kel'],
+            'alamat'=>$validate['alamat'],
+            'no_telp'=>$validate['no_telp'],
+            'gbr_siswa'=>$validate['gbr_siswa']
+        ]);
+
+        // update user
+        $user = User::find($request->id_user);
+        $user->email = $request->email;
+        $user->password = $password;
+        $user->save();
+
+        return back()->with('message','Data siswa berhasil disimpan.');
+    }
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy($id_siswa)
     {
         //
+        $student = Student::find($id_siswa);
+        $user = User::find($student->id_user);
+        FILE::delete($student->gbr_siswa);
+        $user->forceDelete();
+        $student->forceDelete();
+        return redirect('siswa')->with('message','Data siswa berhasil dihapus');
     }
 }

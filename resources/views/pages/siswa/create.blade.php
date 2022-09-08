@@ -17,13 +17,28 @@
 
     </div>
     @endif
-    <h1 class="mt-4">Instruktur</h1>
+    @if(Session::has('error'))
+    <div class="position-relative" aria-live="polite" aria-atomic="true">
+        <div class="toast-container top-0 end-0">
+            <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="2000" >
+                <div class="toast-body  bg-danger text-white">
+                    <i class="fas fa-exclamation-circle fa-fw"></i>
+                    {{ Session::get('error') }}
+                    <button type="button" class="btn-close btn-sm btn-white float-sm-end" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    @endif
+    <h1 class="mt-4">Siswa</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{ route('siswa') }}">Siswa</a></li>
         <li class="breadcrumb-item active">Tambah</li>
     </ol>
-    <form action="{{ route('store.siswa')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('siswa.simpan')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row mb-3">
             <div class="col-md-6">
@@ -37,9 +52,9 @@
             </div>
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control @error('nm_instr') is-invalid @enderror" id="nm_instr" name="nm_instr" type="text" placeholder="Masukan Nama" autocomplete="off"/>
-                    <label for="nm_instr">Nama Lengkap</label>
-                    @error('nm_instr')
+                    <input class="form-control @error('nm_siswa') is-invalid @enderror" id="nm_siswa" name="nm_siswa" type="text" placeholder="Masukan Nama" autocomplete="off"/>
+                    <label for="nm_siswa">Nama Lengkap</label>
+                    @error('nm_siswa')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -81,12 +96,12 @@
                     </label>
                   </div>
                 @error('jns_kel')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" type="text" placeholder="Masukan alamat rumah"></textarea>
+                    <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" type="text"></textarea>
                     <label for="alamat">Alamat</label>
                     @error('alamat')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -101,7 +116,7 @@
                     <label for="no_telp">No.Telp / HP</label>
                 </div>
                 @error('no_telp')
-                    <div class="invalid-feedback">{{ $message }}</div>
+                    <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
             <div class="col-md-6">
@@ -109,13 +124,50 @@
                     <div class="file-drop-area">
                         <span class="choose-file-button">Upload Gambar</span>
                         <span class="file-message">Drag dan drop file disini</span>
-                        <input class="file-input" type="file" id="gbr_instr" name="gbr_instr" accept="image/*">
+                        <input class="file-input" type="file" id="gbr_siswa" name="gbr_siswa">
                       </div>
                 </div>
                 @error('gbr_instr')
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
 
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-floating mb-2">
+                    <input class="form-control @error('username') is-invalid @enderror" id="username" name="username" type="text" placeholder="Masukan Username" autocomplete="off" autofocus/>
+                    <label for="username">Usename</label>
+                </div>
+                @error('username')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating mb-2">
+                    <input class="form-control @error('email') is-invalid @enderror" id="email" name="email" type="email" placeholder="Masukan Email" autocomplete="off" autofocus/>
+                    <label for="email">Email</label>
+                </div>
+                @error('email')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-floating mb-2">
+                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" type="text" placeholder="Masukan Password" autocomplete="off" autofocus/>
+                    <label for="password">Password</label>
+                </div>
+                @error('password')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating mb-2">
+                    <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" type="password_confirmation" autocomplete="off" autofocus/>
+                    <label for="password_confirmation">Ulangi Password</label>
+                </div>
             </div>
         </div>
         <div class="mt-4 mb-0">

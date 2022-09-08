@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Instructor;
+use Illuminate\Support\Facades\File;
 
 class InstructorController extends Controller
 {
@@ -159,6 +160,7 @@ class InstructorController extends Controller
     {
         //hapus record
         $instr = Instructor::find($kd_instr);
+        File::delete($instr->gbr_instr);
         $instr->delete();
         return back()->with('message','Data berhasil dihapus');
     }

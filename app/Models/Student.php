@@ -9,12 +9,18 @@ class Student extends Model
 {
     use HasFactory;
     protected $table = 'siswa';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_siswa';
     public $timestamps = false;
     protected $fillable = [
-        'id',
+        'id_siswa',
+        'nis',
         'nm_siswa',
+        'tgl_lhr',
+        'tpt_lhr',
+        'jns_kel',
+        'alamat',
         'no_telp',
+        'gbr_siswa',
         'id_user'
     ];
 }

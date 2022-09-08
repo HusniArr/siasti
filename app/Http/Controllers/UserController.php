@@ -155,7 +155,7 @@ class UserController extends Controller
 
             //insert siswa
             $student = new Student([
-                'id'=>Str::random(40),
+                'id_siswa'=>Str::random(40),
                 'nm_siswa'=>$validate['nm_siswa'],
                 'no_telp'=>$validate['no_telp'],
                 'id_user'=>$user->id

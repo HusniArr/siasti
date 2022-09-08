@@ -81,7 +81,7 @@
                     </label>
                   </div>
                 @error('jns_kel')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
             <div class="col-md-6">
@@ -113,7 +113,7 @@
                       </div>
                 </div>
                 @error('gbr_instr')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <span class="text-danger">{{ $message }}</span>
                 @enderror
 
             </div>
