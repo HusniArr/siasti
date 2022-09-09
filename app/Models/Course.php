@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+
     protected $table = 'kursus';
     protected $primaryKey = 'kd_kursus';
     protected $fillable = [
@@ -19,4 +19,5 @@ class Course extends Model
         'wkt_kursus',
         'biaya_kursus'
     ];
+    public $timestamps = false;
 }

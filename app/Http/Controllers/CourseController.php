@@ -59,7 +59,7 @@ class CourseController extends Controller
             'nm_kursus.max' => 'Nama Kursus terlalu panjang',
             'jenjang.required' => 'Masukan jenjang kursus',
             'jdwl_kursus.required' => 'Masukan jadwal kursus',
-            'wkt_kursus.required' => 'Waktu kursus belum diseting',
+            'wkt_kursus.required' => 'Waktu kursus belum diset',
             'biaya_kursus.required' => 'Masukan jumlah biaya kursus'
         ];
         $validate = $request->validate($rules,$messages);
@@ -97,11 +97,11 @@ class CourseController extends Controller
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function edit(Course $course, $kd_kursus)
+    public function edit($kd_kursus)
     {
         $data = [
             'title' => 'Edit Kursus',
-            'course' => Course::find($kd_kursus)
+            'course' => DB::table('kursus')->where('kd_kursus',$kd_kursus)->first()
         ];
         return view('pages.kursus.edit',$data);
     }
@@ -113,9 +113,40 @@ class CourseController extends Controller
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request,$kd_kursus)
     {
-        //
+        $rules = [
+            'nm_kursus' => 'required|max:100',
+            'jenjang' => 'required',
+            'jdwl_kursus'=> 'required',
+            'wkt_kursus' => 'required',
+            'biaya_kursus' => 'required'
+        ];
+        $messages = [
+            'nm_kursus.required' => 'Masukan nama kursus',
+            'nm_kursus.max' => 'Nama Kursus terlalu panjang',
+            'jenjang.required' => 'Masukan jenjang kursus',
+            'jdwl_kursus.required' => 'Masukan jadwal kursus',
+            'wkt_kursus.required' => 'Waktu kursus belum diset',
+            'biaya_kursus.required' => 'Masukan jumlah biaya kursus'
+        ];
+        $validate = $request->validate($rules,$messages);
+        $time = date_create($validate['wkt_kursus']);
+        $updated = DB::table('kursus')
+        ->where('kd_kursus',$kd_kursus)
+        ->update([
+            'nm_kursus' => $validate['nm_kursus'],
+            'jenjang' => $validate['jenjang'],
+            'jdwl_kursus' => $validate['jdwl_kursus'],
+            'wkt_kursus' => date_format($time,"H:i"),
+            'biaya_kursus' => $validate['biaya_kursus']
+        ]);
+
+        if($updated){
+            return back()->with('message','Data kursus berhasil diperbarui');
+        }else{
+            return back()->with('error','Data kursus gagal diperbarui');
+        }
     }
 
     /**
@@ -124,8 +155,15 @@ class CourseController extends Controller
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Course $course)
+    public function destroy($kd_kursus)
     {
-        //
+        $course = Course::find($kd_kursus);
+        $deleted = $course->delete();
+        if($deleted){
+            return back()->with('message','Data kursus berhasil dihapus');
+        }else{
+            return back()->with('error','Data kursus gagal dihapus');
+        }
+
     }
 }

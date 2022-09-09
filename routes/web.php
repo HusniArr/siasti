@@ -43,7 +43,7 @@ Route::get('kursus',[CourseController::class,'index'])->name('kursus')->middlewa
 Route::get('kursus/tambah',[CourseController::class,'create'])->name('kursus.tambah')->middleware('admin');
 Route::post('kursus/simpan',[CourseController::class,'store'])->name('kursus.simpan');
 Route::get('kursus/{kd_kursus}/edit',[CourseController::class,'edit'])->name('kursus.edit')->middleware('admin');
-Route::post('kursus/update',[CourseController::class,'update'])->name('kursus.update');
+Route::post('kursus/{kd_kursus}/edit',[CourseController::class,'update'])->name('kursus.update');
 Route::get('kursus/{kd_kursus}/hapus',[CourseController::class,'destroy'])->middleware('admin');
 Route::get('403',function(){
     return view('pages.error403');
