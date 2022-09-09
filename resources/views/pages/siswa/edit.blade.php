@@ -38,12 +38,12 @@
         <li class="breadcrumb-item"><a href="{{ route('siswa') }}">Siswa</a></li>
         <li class="breadcrumb-item active">Edit</li>
     </ol>
-    <form action="{{ url('siswa/'.$student->id_siswa.'/edit')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('siswa.update')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control @error('nis') is-invalid @enderror" id="nis" name="nis" type="text" value="{{ $student->nis }}" placeholder="Masukan NIS" autocomplete="off" autofocus/>
+                    <input class="form-control @error('nis') is-invalid @enderror" id="nis" name="nis" type="text" value="{{ old('nis',$student->nis) }}" placeholder="Masukan NIS" autocomplete="off" autofocus/>
                     <label for="nis">NIS</label>
                     @error('nis')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -52,7 +52,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control @error('nm_siswa') is-invalid @enderror" id="nm_siswa" name="nm_siswa" type="text" value="{{ $student->nm_siswa }}" placeholder="Masukan Nama" autocomplete="off"/>
+                    <input class="form-control @error('nm_siswa') is-invalid @enderror" id="nm_siswa" name="nm_siswa" type="text" value="{{ old('nm_siswa',$student->nm_siswa) }}" placeholder="Masukan Nama" autocomplete="off"/>
                     <label for="nm_siswa">Nama Lengkap</label>
                     @error('nm_siswa')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -63,7 +63,7 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control  @error('tgl_lhr') is-invalid @enderror" data-date-inline-picker="true" value="{{ $student->tgl_lhr }}" id="tgl_lhr" name="tgl_lhr" type="date" placeholder="Tanggal lahir"/>
+                    <input class="form-control  @error('tgl_lhr') is-invalid @enderror" data-date-inline-picker="true" value="{{ old('tgl_lhr',$student->tgl_lhr) }}" id="tgl_lhr" name="tgl_lhr" type="date" placeholder="Tanggal lahir"/>
                     <label for="tgl_lhr">Tanggal Lahir</label>
                     @error('tgl_lhr')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -72,7 +72,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control @error('tpt_lhr') is-invalid @enderror" id="tpt_lhr" name="tpt_lhr" type="text" value="{{ $student->tpt_lhr }}" placeholder="Masukan tempat lahir" autocomplete="off"/>
+                    <input class="form-control @error('tpt_lhr') is-invalid @enderror" id="tpt_lhr" name="tpt_lhr" type="text" value="{{ old('tpt_lhr',$student->tpt_lhr) }}" placeholder="Masukan tempat lahir" autocomplete="off"/>
                     <label for="tpt_lhr">Tempat Lahir</label>
                     @error('tpt_lhr')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -101,7 +101,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" type="text">{{ $student->alamat }}</textarea>
+                    <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" type="text">{{ old('alamat',$student->alamat) }}</textarea>
                     <label for="alamat">Alamat</label>
                     @error('alamat')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -112,7 +112,7 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control @error('no_telp') is-invalid @enderror" id="no_telp" name="no_telp" type="text" placeholder="Masukan No.Telp" value="{{ $student->no_telp }}" autocomplete="off" autofocus/>
+                    <input class="form-control @error('no_telp') is-invalid @enderror" id="no_telp" name="no_telp" type="text" placeholder="Masukan No.Telp" value="{{ old('no_telp',$student->no_telp) }}" autocomplete="off" autofocus/>
                     <label for="no_telp">No.Telp / HP</label>
                 </div>
                 @error('no_telp')
@@ -124,6 +124,7 @@
                     <div class="file-drop-area">
                         <span class="choose-file-button">Upload Gambar</span>
                         <span class="file-message">Drag dan drop file disini</span>
+                        <input type="hidden" name="gbr_lama" id="gbr_lama" value="{{ $student->gbr_siswa }}">
                         <input class="file-input" type="file" id="gbr_siswa" name="gbr_siswa">
                       </div>
                 </div>
@@ -136,13 +137,13 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control" id="username" name="username" type="text" placeholder="Masukan Username" value="{{ $user->username }}" autocomplete="off" disabled/>
+                    <input class="form-control" id="username" name="username" type="text" placeholder="Masukan Username" value="{{ old('username',$user->username) }}" autocomplete="off" disabled/>
                     <label for="username">Usename</label>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control @error('email') is-invalid @enderror" id="email" name="email" type="email" placeholder="Masukan Email" value="{{ $user->email }}" autocomplete="off" autofocus/>
+                    <input class="form-control @error('email') is-invalid @enderror" id="email" name="email" type="email" placeholder="Masukan Email" value="{{ old('email',$user->email) }}" autocomplete="off" autofocus/>
                     <label for="email">Email</label>
                 </div>
                 @error('email')
@@ -168,6 +169,7 @@
             </div>
         </div>
         <div class="mt-4 mb-0">
+            <input type="hidden" name="id_siswa" id="id_siswa" value="{{ $student->id_siswa }}">
             <input type="hidden" name="id_user" id="id_user" value="{{ $user->id }}">
             <div class="d-grid"><button type="submit" class="btn btn-primary btn-block" >UPDATE DATA</button></div>
         </div>

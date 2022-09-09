@@ -130,7 +130,7 @@ class StudentController extends Controller
     public function edit($id_siswa)
     {
         //
-        $student = Student::find($id_siswa);
+        $student = DB::table('siswa')->where('id_siswa',$id_siswa)->first();
         $data['title'] = 'Edit Siswa';
         $data['student'] = $student;
         $data['user'] = User::find($student->id_user);
@@ -144,7 +144,7 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_siswa)
+    public function update(Request $request)
     {
         //update data siswa
         $rules = [
@@ -163,7 +163,7 @@ class StudentController extends Controller
             'email.email'=>'Email tidak sesuai',
             'password.required'=>'Masukan password',
             'password.confirmed'=>'Kedua password harus sama',
-            'nis.required' => 'Masuka NIS',
+            'nis.required' => 'Masukan NIS',
             'nis.max'=>'Maksimum NIS 12 digit',
             'nm_siswa.required'=>'Masukan nama lengkap',
             'tgl_lhr.required'=>'Masukan tanggal lahir',
@@ -172,27 +172,27 @@ class StudentController extends Controller
             'jns_kel.required'=>'Jenis kelamin belum dipilih',
             'alamat.required'=>'Masukan alamat',
             'no_telp.required'=>'Masukan nomor telepon atau hp',
-            'gbr_siswa.image'=>'Format harus jpg,jpeg,png',
+            'gbr_siswa.mime'=>'Format harus jpg,jpeg,png',
             'gbr_siswa.max'=>'Ukuran gambar 1MB'
         ];
         $validate= $request->validate($rules,$messages);
         $password = Hash::make($request->password);
-
+        $id_siswa = $request->id_siswa;
         //update siswa
         if($request->file('gbr_siswa')){
             $validate['gbr_siswa'] = $request->file('gbr_siswa')->store('siswa');
         }
-        Student::where('id_siswa',$id_siswa)
-        ->update([
-            'nis'=>$validate['nis'],
-            'nm_siswa'=>$validate['nm_siswa'],
-            'tgl_lhr' =>$validate['tgl_lhr'],
-            'tpt_lhr'=>$validate['tpt_lhr'],
-            'jns_kel'=>$validate['jns_kel'],
-            'alamat'=>$validate['alamat'],
-            'no_telp'=>$validate['no_telp'],
-            'gbr_siswa'=>$validate['gbr_siswa']
-        ]);
+
+        $student = Student::find($id_siswa);
+        $student->nis = $request->nis;
+        $student->nm_siswa = $request->nm_siswa;
+        $student->tgl_lhr = $request->tgl_lhr;
+        $student->tpt_lhr = $request->tpt_lhr;
+        $student->jns_kel = $request->jns_kel;
+        $student->alamat = $request->alamat;
+        $student->no_telp = $request->no_telp;
+        $student->gbr_siswa = $validate['gbr_siswa'];
+        $student->save();
 
         // update user
         $user = User::find($request->id_user);

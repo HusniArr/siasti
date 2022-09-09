@@ -52,7 +52,7 @@
                             <td>{{ $student->tpt_lhr }}, {{ $student->tgl_lhr }}</td>
                             <td>{{ $student->no_telp }}</td>
                             <td>{{ $student->alamat }}</td>
-                            <td>{{ asset('siswa/'.$student->gbr_siswa)}}</td>
+                            <td><img src="{{ asset('storage/'.$student->gbr_siswa) }}" alt="profil siswa" width="100"></td>
                             <td>
                                 <a href="{{ url('siswa/'.$student->id_siswa.'/edit')}}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i>Edit</a>
                                 <a href="{{ url('siswa/'.$student->id_siswa.'/hapus')}}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash">Hapus</i></a>

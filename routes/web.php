@@ -36,7 +36,7 @@ Route::get('siswa',[StudentController::class,'index'])->name('siswa')->middlewar
 Route::get('siswa/tambah',[StudentController::class,'create'])->name('siswa.tambah')->middleware('admin');
 Route::post('siswa/tambah',[StudentController::class,'store'])->name('siswa.simpan');
 Route::get('siswa/{id_siswa}/edit',[StudentController::class,'edit'])->name('siswa.edit')->middleware('admin');
-Route::post('siswa/{id_siswa}/edit',[StudentController::class,'update']);
+Route::post('siswa/update',[StudentController::class,'update'])->name('siswa.update');
 Route::get('siswa/{id_siswa}/hapus',[StudentController::class,'destroy'])->middleware('admin');
 Route::get('403',function(){
     return view('pages.error403');
