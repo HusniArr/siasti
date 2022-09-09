@@ -38,7 +38,7 @@
                         <th>Tempat, tanggal lahir</th>
                         <th>No telepon</th>
                         <th>Alamat</th>
-                        <td></td>
+                        <th>Gambar</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -52,7 +52,7 @@
                             <td>{{ $row->tpt_lhr }}, {{ $row->tgl_lhr }}</td>
                             <td>{{ $row->no_telp }}</td>
                             <td>{{ $row->alamat }}</td>
-                            <td><img src="{{ asset('storage/'.$row->gbr_instr)}}" alt="" srcset=""></td>
+                            <td><img src="{{ asset('storage/'.$row->gbr_instr)}}" alt="profil pengajar" width="100"></td>
                             <td>
                                 <a href="{{ url('instruktur/'.$row->kd_instr.'/edit')}}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i>Edit</a>
                                 <a href="{{ url('instruktur/'.$row->kd_instr.'/hapus')}}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash">Hapus</i></a>

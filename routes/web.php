@@ -5,7 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\StudentController;
-use App\Models\Instructor;
+use App\Http\Controllers\CourseController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,12 @@ Route::post('siswa/tambah',[StudentController::class,'store'])->name('siswa.simp
 Route::get('siswa/{id_siswa}/edit',[StudentController::class,'edit'])->name('siswa.edit')->middleware('admin');
 Route::post('siswa/update',[StudentController::class,'update'])->name('siswa.update');
 Route::get('siswa/{id_siswa}/hapus',[StudentController::class,'destroy'])->middleware('admin');
+Route::get('kursus',[CourseController::class,'index'])->name('kursus')->middleware('admin');
+Route::get('kursus/tambah',[CourseController::class,'create'])->name('kursus.tambah')->middleware('admin');
+Route::post('kursus/simpan',[CourseController::class,'store'])->name('kursus.simpan');
+Route::get('kursus/{kd_kursus}/edit',[CourseController::class,'edit'])->name('kursus.edit')->middleware('admin');
+Route::post('kursus/update',[CourseController::class,'update'])->name('kursus.update');
+Route::get('kursus/{kd_kursus}/hapus',[CourseController::class,'destroy'])->middleware('admin');
 Route::get('403',function(){
     return view('pages.error403');
 })->name('error.403');
