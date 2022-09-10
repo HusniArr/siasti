@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ScoreController;
 
 
 /*
@@ -45,6 +46,12 @@ Route::post('kursus/simpan',[CourseController::class,'store'])->name('kursus.sim
 Route::get('kursus/{kd_kursus}/edit',[CourseController::class,'edit'])->name('kursus.edit')->middleware('admin');
 Route::post('kursus/{kd_kursus}/edit',[CourseController::class,'update'])->name('kursus.update');
 Route::get('kursus/{kd_kursus}/hapus',[CourseController::class,'destroy'])->middleware('admin');
+Route::get('nilai',[ScoreController::class,'index'])->name('nilai')->middleware('admin');
+Route::get('nilai/tambah',[ScoreController::class,'create'])->name('nilai.tambah')->middleware('admin');
+Route::post('nilai/simpan',[ScoreController::class,'store'])->name('nilai.simpan');
+Route::get('nilai/{id_nilai}/edit',[ScoreController::class,'edit'])->name('nilai.edit')->middleware('admin');
+Route::post('nilai/{id_nilai}/edit',[ScoreController::class,'update'])->name('nilai.update');
+Route::get('nilai/{id_nilai}/hapus',[ScoreController::class,'destroy'])->name('nilai.delete')->middleware('admin');
 Route::get('403',function(){
     return view('pages.error403');
 })->name('error.403');
