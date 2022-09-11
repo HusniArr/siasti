@@ -7,6 +7,7 @@ use App\Models\Instructor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class InstructorController extends Controller
 {
@@ -148,20 +149,36 @@ class InstructorController extends Controller
             'no_telp.required'=>'Masukan nomor telepon atau hp'
         ];
         $validate = $request->validate($rules,$messages);
+        $instr = DB::table('instruktur')->where('id',$id)->first();
         if($request->file('gbr_instr')){
             $validate['gbr_instr'] = $request->file('gbr_instr')->store('instruktur');
+            // hapus file image lama
+            Storage::delete($instr->gbr_instr);
+            // update data instruktur
+            $updated = DB::table('instruktur')
+                    ->where('id',$id)
+                    ->update([
+                        'kd_instr'=>$validate['kd_instr'],
+                        'nm_instr'=>$validate['nm_instr'],
+                        'tgl_lhr'=>$validate['tgl_lhr'],
+                        'tpt_lhr'=>$validate['tpt_lhr'],
+                        'jns_kel'=>$validate['jns_kel'],
+                        'alamat'=>$validate['alamat'],
+                        'gbr_instr'=>$validate['gbr_instr'],
+                        'no_telp'=>$validate['no_telp']]);
+        }else{
+            // update data instruktur
+            $updated = DB::table('instruktur')
+                    ->where('id',$id)
+                    ->update([
+                        'kd_instr'=>$validate['kd_instr'],
+                        'nm_instr'=>$validate['nm_instr'],
+                        'tgl_lhr'=>$validate['tgl_lhr'],
+                        'tpt_lhr'=>$validate['tpt_lhr'],
+                        'jns_kel'=>$validate['jns_kel'],
+                        'alamat'=>$validate['alamat'],
+                        'no_telp'=>$validate['no_telp']]);
         }
-        $updated = DB::table('instruktur')
-                ->where('id',$id)
-                ->update([
-                    'kd_instr'=>$validate['kd_instr'],
-                    'nm_instr'=>$validate['nm_instr'],
-                    'tgl_lhr'=>$validate['tgl_lhr'],
-                    'tpt_lhr'=>$validate['tpt_lhr'],
-                    'jns_kel'=>$validate['jns_kel'],
-                    'alamat'=>$validate['alamat'],
-                    'gbr_instr'=>$validate['gbr_instr'],
-                    'no_telp'=>$validate['no_telp']]);
         if ($updated) {
             return back()->with('message','Data berhasil diperbarui');
         } else {
@@ -181,7 +198,7 @@ class InstructorController extends Controller
     {
         //hapus record
         $instr = Instructor::find($id);
-        File::delete($instr->gbr_instr);
+        Storage::delete($instr->gbr_instr);
         $deleted = $instr->delete();
         if($deleted){
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -156,7 +157,7 @@ class StudentController extends Controller
             'jns_kel'=>'required',
             'alamat'=>'required',
             'no_telp'=>'required',
-            'gbr_siswa'=>'image|file|max:1024',
+            'gbr_siswa'=>'image|mimes:jpg,jpeg,png|max:1024',
              ];
         $messages = [
             'nis.required' => 'Masukan NIS',
@@ -168,26 +169,40 @@ class StudentController extends Controller
             'jns_kel.required'=>'Jenis kelamin belum dipilih',
             'alamat.required'=>'Masukan alamat',
             'no_telp.required'=>'Masukan nomor telepon atau hp',
-            'gbr_siswa.mime'=>'Format harus jpg,jpeg,png',
+            'gbr_siswa.mimes'=>'Format harus jpg,jpeg,png',
             'gbr_siswa.max'=>'Ukuran gambar 1MB'
         ];
         $validate= $request->validate($rules,$messages);
         $id_siswa = $request->id_siswa;
-        //update siswa
+        $student = Student::find($id_siswa);
         if($request->file('gbr_siswa')){
+
             $validate['gbr_siswa'] = $request->file('gbr_siswa')->store('siswa');
+            // hapus gbr lama
+            Storage::delete($student->gbr_siswa);
+
+            //update siswa
+            $student->nis = $request->nis;
+            $student->nm_siswa = $request->nm_siswa;
+            $student->tgl_lhr = $request->tgl_lhr;
+            $student->tpt_lhr = $request->tpt_lhr;
+            $student->jns_kel = $request->jns_kel;
+            $student->alamat = $request->alamat;
+            $student->no_telp = $request->no_telp;
+            $student->gbr_siswa = $validate['gbr_siswa'];
+            $updated = $student->save();
+        }else{
+            //update siswa
+            $student->nis = $request->nis;
+            $student->nm_siswa = $request->nm_siswa;
+            $student->tgl_lhr = $request->tgl_lhr;
+            $student->tpt_lhr = $request->tpt_lhr;
+            $student->jns_kel = $request->jns_kel;
+            $student->alamat = $request->alamat;
+            $student->no_telp = $request->no_telp;
+            $updated = $student->save();
         }
 
-        $student = Student::find($id_siswa);
-        $student->nis = $request->nis;
-        $student->nm_siswa = $request->nm_siswa;
-        $student->tgl_lhr = $request->tgl_lhr;
-        $student->tpt_lhr = $request->tpt_lhr;
-        $student->jns_kel = $request->jns_kel;
-        $student->alamat = $request->alamat;
-        $student->no_telp = $request->no_telp;
-        $student->gbr_siswa = $validate['gbr_siswa'];
-        $updated = $student->save();
 
         if($updated){
 
@@ -205,13 +220,14 @@ class StudentController extends Controller
     public function destroy($id_siswa)
     {
 
-        $student = DB::table('siswa')->where('id_siswa',$id_siswa)->first();
+        $student = Student::find($id_siswa);
         $user = User::find($student->id_user);
-        $nilai = Score::find($id_siswa);
-        unlink(public_path('storage/siswa').$student->gbr_siswa);
-        $user->forceDelete();
-        $student->forceDelete();
-        $nilai->forceDelete();
+
+        // hapus gbr siswa
+        unlink(public_path('storage/').$student->gbr_siswa);
+
+        $student->delete();
+        $user->delete();
         return redirect('siswa')->with('message','Data siswa berhasil dihapus');
     }
 }

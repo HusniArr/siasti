@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('nilai', function (Blueprint $table) {
             $table->id();
-            $table->string('nis',10);
-            $table->string('kd_kursus',14);
+            $table->string('id_siswa');
+            $table->string('id_kursus');
             $table->integer('nilai');
             $table->enum('ket',['Lulus','Tidak Lulus']);
         });

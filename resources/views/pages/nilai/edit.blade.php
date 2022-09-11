@@ -44,10 +44,11 @@
             <div class="col-md-6">
                 <label for="">NIS</label>
                 <div class="mb-2">
-                    <select class="form-control form-select" name="nis" id="nis" disabled>
+                    <input type="hidden" name="id_nilai" id="id_nilai" value="{{ $score->id }}">
+                    <select class="form-control form-select" name="id_siswa" id="id_siswa" disabled>
                             <option value="">Pilih NIS atau nama siswa</option>
                         @foreach ($students as $item)
-                            <option value="{{ $item->nis }}" {{ ($item->nis == $score->nis) ? "selected" : "" }}>{{ $item->nis }} | {{ $item->nm_siswa }}</option>
+                            <option value="{{ $item->id_siswa }}" {{ ($item->id_siswa == $score->id_siswa) ? "selected" : "" }}>{{ $item->nis }} | {{ $item->nm_siswa }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -55,13 +56,13 @@
             <div class="col-md-6">
                 <label for="">Nama Kursus</label>
                 <div class="mb-2">
-                    <select class="form-control form-select" name="kd_kursus" id="kd_kursus">
+                    <select class="form-control form-select @error('id_kursus') is-invalid @enderror" name="id_kursus" id="id_kursus">
                             <option value="">Pilih nama kursus atau kelas</option>
                         @foreach ($courses as $item)
-                            <option value="{{ $item->kd_kursus }}" {{ ($item->kd_kursus == $score->kd_kursus) ? "selected" : "" }}>{{ $item->nm_kursus }}</option>
+                            <option value="{{ $item->id }}" {{ ($item->id == $score->id_kursus) ? "selected" : "" }}>{{ $item->nm_kursus }}</option>
                         @endforeach
                     </select>
-                    @error('kd_kursus')
+                    @error('id_kursus')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -79,7 +80,7 @@
             </div>
             <div class="col-md-6">
                 <label for="ket">Status</label>
-                <select class="form-control form-select" name="ket" id="ket">
+                <select class="form-control form-select @error('ket') is-invalid @enderror" name="ket" id="ket">
                     <option value="">Pilih status</option>
                     <option value="Lulus" {{ ($score->ket == "Lulus") ? "selected" : "" }}>Lulus</option>
                     <option value="Tidak Lulus" {{ ($score->ket == "Tidak Lulus") ? "selected" : ""}}>Tidak Lulus</option>
@@ -95,8 +96,8 @@
 </div>
 
 <script>
-    $('#nis').select2();
-    $('#kd_kursus').select2();
+    $('#id_siswa').select2();
+    $('#id_kursus').select2();
     $('#ket').select2();
 </script>
 @endsection

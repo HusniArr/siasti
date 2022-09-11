@@ -12,8 +12,8 @@ class Score extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'id',
-        'nis',
-        'kd_kursus',
+        'id_siswa',
+        'id_kursus',
         'nilai',
         'ket'
     ];

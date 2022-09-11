@@ -44,13 +44,13 @@
             <div class="col-md-6">
                 <label for="">NIS</label>
                 <div class="mb-2">
-                    <select class="form-control form-select @error('nis') is-invalid @enderror" name="nis" id="nis">
+                    <select class="form-control form-select @error('id_siswa') is-invalid @enderror" name="id_siswa" id="id_siswa">
                             <option value="">Pilih NIS atau nama siswa</option>
                         @foreach ($students as $item)
-                            <option value="{{ $item->nis }}">{{ $item->nis }} | {{ $item->nm_siswa }}</option>
+                            <option value="{{ $item->id_siswa }}">{{ $item->nis }} | {{ $item->nm_siswa }}</option>
                         @endforeach
                     </select>
-                    @error('nis')
+                    @error('id_siswa')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -58,13 +58,13 @@
             <div class="col-md-6">
                 <label for="">Nama Kursus</label>
                 <div class="mb-2">
-                    <select class="form-control form-select @error('kd_kursus') is-invalid @enderror" name="kd_kursus" id="kd_kursus">
+                    <select class="form-control form-select @error('id_kursus') is-invalid @enderror" name="id_kursus" id="id_kursus">
                             <option value="">Pilih nama kursus atau kelas</option>
                         @foreach ($courses as $item)
-                            <option value="{{ $item->kd_kursus }}">{{ $item->nm_kursus }}</option>
+                            <option value="{{ $item->id }}">{{ $item->nm_kursus }}</option>
                         @endforeach
                     </select>
-                    @error('kd_kursus')
+                    @error('id_kursus')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -100,8 +100,8 @@
 </div>
 
 <script>
-    $('#nis').select2();
-    $('#kd_kursus').select2();
+    $('#id_siswa').select2();
+    $('#id_kursus').select2();
     $('#ket').select2();
 </script>
 @endsection

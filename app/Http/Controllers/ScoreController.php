@@ -18,16 +18,15 @@ class ScoreController extends Controller
     public function index()
     {
         $allData = DB::table('nilai')
-                ->leftJoin('siswa','nilai.nis','=','siswa.nis')
-                ->leftJoin('kursus','nilai.kd_kursus','=','kursus.kd_kursus')
-                ->select('nilai.*','siswa.nm_siswa','kursus.nm_kursus')
-                ->get();
-
+        ->leftJoin('siswa','siswa.id_siswa','=','nilai.id_siswa')
+        ->leftJoin('kursus','kursus.id','=','nilai.id_kursus')
+        ->select('nilai.*','siswa.nis','siswa.nm_siswa','kursus.nm_kursus')
+        ->get();
+        // dd($allData);
         $data = [
             'title' => 'Nilai',
             'allData' => $allData
         ];
-        // dd($data);
         return view('pages.nilai.index',$data);
     }
 
@@ -38,10 +37,11 @@ class ScoreController extends Controller
      */
     public function create()
     {
+        $students = DB::table('siswa')->get();
         $courses = DB::table('kursus')->get();
         $data = [
             'title' => 'Tambah Nilai',
-            'students' => Student::all(),
+            'students' => $students,
             'courses' => $courses
         ];
 
@@ -57,21 +57,21 @@ class ScoreController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nis'=> 'required',
-            'kd_kursus' => 'required',
+            'id_siswa'=> 'required',
+            'id_kursus' => 'required',
             'nilai' => 'required',
             'ket' =>'required'
         ];
         $messages = [
-            'nis.required' => 'Masukan NIS atau Nama Siswa',
-            'kd_kursus.required' => 'Masukan Nama kursus atau kelas',
+            'id_siswa.required' => 'Masukan NIS atau Nama Siswa',
+            'id_kursus.required' => 'Masukan Nama kursus atau kelas',
             'nilai.required' => 'Masukan Nilai Siswa',
             'ket.required' => 'Masukan Status belajar siswa'
         ];
         $validate = $request->validate($rules,$messages);
         $nilai = new Score([
-            'nis'=>$validate['nis'],
-            'kd_kursus'=>$validate['kd_kursus'],
+            'id_siswa'=>$validate['id_siswa'],
+            'id_kursus'=>$validate['id_kursus'],
             'nilai' =>$validate['nilai'],
             'ket'=>$validate['ket']
         ]);
@@ -103,10 +103,11 @@ class ScoreController extends Controller
     public function edit($id_nilai)
     {
         $score = Score::find($id_nilai);
+        $students = DB::table('siswa')->get();
         $courses = DB::table('kursus')->get();
         $data = [
             'title' => 'Tambah Nilai',
-            'students' => Student::all(),
+            'students' => $students,
             'courses'=>$courses,
             'score' => $score
         ];
@@ -121,21 +122,22 @@ class ScoreController extends Controller
      * @param  \App\Models\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id_nilai)
+    public function update(Request $request,$id)
     {
         $rules = [
-            'kd_kursus' => 'required',
+            'id_kursus' => 'required',
             'nilai' => 'required',
             'ket' =>'required'
         ];
         $messages = [
-            'kd_kursus.required' => 'Masukan Nama kursus atau kelas',
+            'id_kursus.required' => 'Masukan Nama kursus atau kelas',
             'nilai.required' => 'Masukan Nilai Siswa',
             'ket.required' => 'Masukan Status belajar siswa'
         ];
+
         $validate = $request->validate($rules,$messages);
-        $score = Score::find($id_nilai);
-        $score->kd_kursus = $validate['kd_kursus'];
+        $score = Score::find($id);
+        $score->id_kursus = $validate['id_kursus'];
         $score->nilai = $validate['nilai'];
         $score->ket = $validate['ket'];
         $updated = $score->save();
