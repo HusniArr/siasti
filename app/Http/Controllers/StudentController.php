@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
@@ -118,9 +119,14 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student)
+    public function show()
     {
-        //
+        $student = DB::table('siswa')->where('id_user',Auth::user()->id)->first();
+        $data = [
+            'title'=>'Edit Profil',
+            'student'=>$student
+        ];
+        return view('pages.siswa.edit',$data);
     }
 
     /**
@@ -135,7 +141,6 @@ class StudentController extends Controller
         $student = DB::table('siswa')->where('id_siswa',$id_siswa)->first();
         $data['title'] = 'Edit Siswa';
         $data['student'] = $student;
-        $data['user'] = User::find($student->id_user);
         return view('pages.siswa.edit',$data);
     }
 

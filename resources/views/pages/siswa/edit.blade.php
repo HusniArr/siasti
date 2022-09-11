@@ -136,7 +136,6 @@
         </div>
         <div class="mt-4 mb-0">
             <input type="hidden" name="id_siswa" id="id_siswa" value="{{ $student->id_siswa }}">
-            <input type="hidden" name="id_user" id="id_user" value="{{ $user->id }}">
             <div class="d-grid"><button type="submit" class="btn btn-primary btn-block" >UPDATE DATA</button></div>
         </div>
     </form>

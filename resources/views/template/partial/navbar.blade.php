@@ -16,7 +16,10 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i>{{ Auth::user()->username }}</a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!"><i class="fas fa-gear fa-fw"></i>Pengaturan</a></li>
+                    @if (Auth::user()->level == 'siswa')
+                    <li><a class="dropdown-item" href="{{ route('pengaturan.profil') }}"><i class="fas fa-gear fa-fw"></i>Profil</a></li>
+                    @endif
+                    <li><a class="dropdown-item" href="{{ route('pengaturan.sandi') }}"><i class="fas fa-gear fa-fw"></i>Password</a></li>
                     <li><hr class="dropdown-divider" /></li>
                     <li><a class="dropdown-item" href="{{ url('/logout')}}"><i class="fas fa-right-from-bracket fa-fw"></i>Keluar</a></li>
                 </ul>

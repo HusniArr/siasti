@@ -94,7 +94,8 @@ class UserController extends Controller
             'email.required'=>'Masukan Email Anda',
             'email.email'=>'Email tidak sesuai',
             'password.required'=>'Masukan password Anda',
-            'password.confirmed'=>'Kedua password harus sama'
+            'password.confirmed'=>'Kedua password harus sama',
+            'password.min'=>'Panjang password minimal 8 karakter'
         ];
         $request->validate($rules,$messages);
         $username = $request->username;
@@ -135,7 +136,8 @@ class UserController extends Controller
             'nm_siswa.required'=>'Masukan nama',
             'no_telp.required'=>'Masukan nomor telepon atau hp',
             'password.required'=>'Masukan password',
-            'password.confirmed'=>'Kedua password harus sama'
+            'password.confirmed'=>'Kedua password harus sama',
+            'password.min'=>'Panjang password minimal 8 karakter'
         ];
         $validate= $request->validate($rules,$messages);
         $password = Hash::make($request->password);
@@ -172,9 +174,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $user = User::find(Auth::user()->id);
+        $data = [
+            'title'=>'Ubah Sandi',
+            'user' => $user
+        ];
+        return view('pages.user.ubah-sandi',$data);
     }
 
     /**
@@ -195,9 +202,35 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $rules = [
+            'username'=>'required|max:20',
+            'email'=>'required|email',
+            'password'=>'required|confirmed|min:8',
+             ];
+        $messages = [
+            'username.required'=>'Masukan username Anda',
+            'username.max'=>'Maksimal panjang 20 karakter ',
+            'email.required'=>'Masukan Email Anda',
+            'email.email'=>'Email tidak sesuai',
+            'password.required'=>'Masukan password Anda',
+            'password.confirmed'=>'Kedua password harus sama',
+            'password.min'=>'Panjang password minimal 8 karakter'
+        ];
+        $id = $request->id;
+        $validate= $request->validate($rules,$messages);
+        $password = Hash::make($request->password);
+        $user = User::find($id);
+        $user->username = $validate['username'];
+        $user->email = $validate['email'];
+        $user->password = $password;
+        $success = $user->save();
+        if($success){
+            return back()->with('message','Data akun pengguna berhasil diperbarui');
+        }else{
+            return back()->with('error','Data akun pengguna gagal diperbarui');
+        }
     }
 
     /**

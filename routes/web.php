@@ -54,6 +54,9 @@ Route::post('nilai/{id_nilai}/edit',[ScoreController::class,'update'])->name('ni
 Route::get('nilai/{id_nilai}/hapus',[ScoreController::class,'destroy'])->name('nilai.delete')->middleware('admin');
 Route::get('presensi',[AttendanceController::class,'create'])->name('presensi')->middleware('auth');
 Route::post('presensi/simpan',[AttendanceController::class,'store'])->name('presensi.simpan');
+Route::get('pengaturan/profil',[StudentController::class,'show'])->name('pengaturan.profil')->middleware('auth');
+Route::get('pengaturan/sandi',[UserController::class,'show'])->name('pengaturan.sandi')->middleware('auth');
+Route::post('pengaturan/sandi',[UserController::class,'update'])->name('pengaturan.simpan_sandi');
 Route::get('403',function(){
     return view('pages.error403');
 })->name('error.403');
