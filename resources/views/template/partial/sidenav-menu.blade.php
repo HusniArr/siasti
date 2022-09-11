@@ -7,9 +7,9 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt text-white"></i></div>
                         Dashboard
                     </a>
-                    <a class="nav-link text-white" href="#!">
+                    <a class="nav-link text-white" href="{{ route('presensi') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns text-white"></i></div>
-                        Kehadiran
+                        Presensi
                     </a>
                     @if (Auth::user()->level == 'admin')
                         <a class="nav-link text-white" href="{{ route('nilai') }}">

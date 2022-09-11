@@ -7,7 +7,7 @@ use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ScoreController;
-
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +52,8 @@ Route::post('nilai/simpan',[ScoreController::class,'store'])->name('nilai.simpan
 Route::get('nilai/{id_nilai}/edit',[ScoreController::class,'edit'])->name('nilai.edit')->middleware('admin');
 Route::post('nilai/{id_nilai}/edit',[ScoreController::class,'update'])->name('nilai.update');
 Route::get('nilai/{id_nilai}/hapus',[ScoreController::class,'destroy'])->name('nilai.delete')->middleware('admin');
+Route::get('presensi',[AttendanceController::class,'create'])->name('presensi')->middleware('auth');
+Route::post('presensi/simpan',[AttendanceController::class,'store'])->name('presensi.simpan');
 Route::get('403',function(){
     return view('pages.error403');
 })->name('error.403');
