@@ -84,13 +84,13 @@ class UserController extends Controller
 
     public function saveAdmin(Request $request){
         $rules = [
-            'username'=>'required|max:15',
+            'username'=>'required|max:20',
             'email'=>'required|email',
             'password'=>'required|confirmed|min:8',
              ];
         $messages = [
             'username.required'=>'Masukan username Anda',
-            'username.max'=>'Maksimal panjang 15 karater ',
+            'username.max'=>'Maksimal panjang 20 karakter ',
             'email.required'=>'Masukan Email Anda',
             'email.email'=>'Email tidak sesuai',
             'password.required'=>'Masukan password Anda',
@@ -121,7 +121,7 @@ class UserController extends Controller
     {
         //
         $rules = [
-            'username'=>'required|max:15',
+            'username'=>'required|max:20',
             'email'=>'required|email',
             'password'=>'required|confirmed|min:8',
             'nm_siswa'=>'required',
@@ -129,7 +129,7 @@ class UserController extends Controller
              ];
         $messages = [
             'username.required'=>'Masukan username',
-            'username.max'=>'Maksimal panjang 15 karater ',
+            'username.max'=>'Maksimal panjang 20 karakter ',
             'email.required'=>'Masukan alamat Email',
             'email.email'=>'Email tidak sesuai',
             'nm_siswa.required'=>'Masukan nama',

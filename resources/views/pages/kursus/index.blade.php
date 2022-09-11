@@ -41,7 +41,7 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Master Kursus
+            Daftar Kursus
         </div>
         <div class="card-body">
             <table id="datatablesSimple">
@@ -67,8 +67,8 @@
                             <td>{{ $course->wkt_kursus }}</td>
                             <td>{{ number_format($course->biaya_kursus,2,',','.') }}</td>
                             <td>
-                                <a href="{{ url('kursus/'.$course->kd_kursus.'/edit')}}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i>Edit</a>
-                                <a href="{{ url('kursus/'.$course->kd_kursus.'/hapus')}}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash">Hapus</i></a>
+                                <a href="{{ route('kursus.edit',$course->id)}}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i>Edit</a>
+                                <a href="{{ route('kursus.hapus',$course->id)}}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash">Hapus</i></a>
                             </td>
                         </tr>
 

@@ -38,13 +38,16 @@
         <li class="breadcrumb-item"><a href="{{ route('kursus') }}">Kursus</a></li>
         <li class="breadcrumb-item active">Edit</li>
     </ol>
-    <form action="{{ route('kursus.update',$course->kd_kursus)}}" method="POST">
+    <form action="{{ route('kursus.update',$course->id)}}" method="POST">
         @csrf
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control" id="kd_kursus" name="kd_kursus" type="text" value="{{ $course->kd_kursus }}" disabled/>
+                    <input class="form-control" id="kd_kursus" name="kd_kursus" type="text" value="{{ old('kd_kursus',$course->kd_kursus) }}"/>
                     <label for="kd_kursus">Kode Kursus</label>
+                    @error('kd_kursus')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
             <div class="col-md-6">

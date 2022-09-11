@@ -54,8 +54,8 @@
                             <td>{{ $row->alamat }}</td>
                             <td><img src="{{ asset('storage/'.$row->gbr_instr)}}" alt="profil pengajar" width="100"></td>
                             <td>
-                                <a href="{{ url('instruktur/'.$row->kd_instr.'/edit')}}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i>Edit</a>
-                                <a href="{{ url('instruktur/'.$row->kd_instr.'/hapus')}}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash">Hapus</i></a>
+                                <a href="{{ route('instruktur.edit',$row->id)}}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i>Edit</a>
+                                <a href="{{ route('instruktur.hapus',$row->id)}}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash">Hapus</i></a>
                             </td>
                         </tr>
 

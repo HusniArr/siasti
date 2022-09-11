@@ -23,12 +23,12 @@
         <li class="breadcrumb-item"><a href="{{ route('instruktur') }}">Instruktur</a></li>
         <li class="breadcrumb-item active">Edit</li>
     </ol>
-    <form action="{{ url('instruktur/'.$row->kd_instr.'/edit') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('instruktur.update',$row->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control @error('kd_instr') is-invalid @enderror" id="kd_instr" name="kd_instr" type="text" value="{{ old('kd_instr',$row->kd_instr) }}" readonly/>
+                    <input class="form-control @error('kd_instr') is-invalid @enderror" id="kd_instr" name="kd_instr" type="text" value="{{ old('kd_instr',$row->kd_instr) }}"/>
                     <label for="kd_instr">NIP</label>
                     @error('kd_instr')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -97,7 +97,7 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control @error('no_telp') is-invalid @enderror" id="no_telp" name="no_telp" type="text" value="{{ old('no_telp',$row->no_telp) }}" autocomplete="off" autofocus/>
+                    <input class="form-control @error('no_telp') is-invalid @enderror" id="no_telp" name="no_telp" type="number" value="{{ old('no_telp',$row->no_telp) }}" autocomplete="off" autofocus/>
                     <label for="no_telp">No.Telp / HP</label>
                 </div>
                 @error('no_telp')
@@ -109,9 +109,8 @@
                     <div class="file-drop-area">
                         <span class="choose-file-button">Upload Gambar</span>
                         <span class="file-message">Drag dan drop file disini</span>
-                        <input type="hidden" name="gbr_lama" id="gbr_lama" value="{{ $row->gbr_instr }}">
                         <input class="file-input" type="file" id="gbr_instr" name="gbr_instr" accept="image/*">
-                      </div>
+                    </div>
                 </div>
                 @error('gbr_instr')
                 <span class="text-danger">{{ $message }}</span>

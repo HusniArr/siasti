@@ -26,7 +26,7 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Daftar Instruktur
+            Daftar Siswa
         </div>
         <div class="card-body">
             <table id="datatablesSimple">
@@ -54,8 +54,8 @@
                             <td>{{ $student->alamat }}</td>
                             <td><img src="{{ asset('storage/'.$student->gbr_siswa) }}" alt="profil siswa" width="100"></td>
                             <td>
-                                <a href="{{ url('siswa/'.$student->id_siswa.'/edit')}}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i>Edit</a>
-                                <a href="{{ url('siswa/'.$student->id_siswa.'/hapus')}}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash">Hapus</i></a>
+                                <a href="{{ route('siswa.edit',$student->id_siswa) }}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i>Edit</a>
+                                <a href="{{ route('siswa.hapus',$student->id_siswa) }}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash">Hapus</i></a>
                             </td>
                         </tr>
 

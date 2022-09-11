@@ -100,9 +100,18 @@ class ScoreController extends Controller
      * @param  \App\Models\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function edit(Score $score)
+    public function edit($id_nilai)
     {
-        //
+        $score = Score::find($id_nilai);
+        $courses = DB::table('kursus')->get();
+        $data = [
+            'title' => 'Tambah Nilai',
+            'students' => Student::all(),
+            'courses'=>$courses,
+            'score' => $score
+        ];
+
+        return view('pages.nilai.edit',$data);
     }
 
     /**
@@ -112,9 +121,29 @@ class ScoreController extends Controller
      * @param  \App\Models\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Score $score)
+    public function update(Request $request,$id_nilai)
     {
-        //
+        $rules = [
+            'kd_kursus' => 'required',
+            'nilai' => 'required',
+            'ket' =>'required'
+        ];
+        $messages = [
+            'kd_kursus.required' => 'Masukan Nama kursus atau kelas',
+            'nilai.required' => 'Masukan Nilai Siswa',
+            'ket.required' => 'Masukan Status belajar siswa'
+        ];
+        $validate = $request->validate($rules,$messages);
+        $score = Score::find($id_nilai);
+        $score->kd_kursus = $validate['kd_kursus'];
+        $score->nilai = $validate['nilai'];
+        $score->ket = $validate['ket'];
+        $updated = $score->save();
+        if($updated){
+            return back()->with('message','Data nilai berhasil diperbarui');
+        }else{
+            return back()->with('error','Data nilai gagal diperbarui');
+        }
     }
 
     /**

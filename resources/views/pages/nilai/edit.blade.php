@@ -38,16 +38,16 @@
         <li class="breadcrumb-item"><a href="{{ route('nilai') }}">Nilai</a></li>
         <li class="breadcrumb-item active">Edit</li>
     </ol>
-    <form action="{{ route('nilai.update',$id_nilai)}}" method="POST">
+    <form action="{{ route('nilai.update',$score->id)}}" method="POST">
         @csrf
         <div class="row mb-3">
             <div class="col-md-6">
                 <label for="">NIS</label>
                 <div class="mb-2">
-                    <select class="form-control form-select" name="nis" id="nis">
+                    <select class="form-control form-select" name="nis" id="nis" disabled>
                             <option value="">Pilih NIS atau nama siswa</option>
                         @foreach ($students as $item)
-                            <option value="{{ $item->nis }}">{{ $item->nis }} | {{ $item->nm_siswa }}</option>
+                            <option value="{{ $item->nis }}" {{ ($item->nis == $score->nis) ? "selected" : "" }}>{{ $item->nis }} | {{ $item->nm_siswa }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -58,9 +58,12 @@
                     <select class="form-control form-select" name="kd_kursus" id="kd_kursus">
                             <option value="">Pilih nama kursus atau kelas</option>
                         @foreach ($courses as $item)
-                            <option value="{{ $item->kd_kursus }}">{{ $item->nm_kursus }}</option>
+                            <option value="{{ $item->kd_kursus }}" {{ ($item->kd_kursus == $score->kd_kursus) ? "selected" : "" }}>{{ $item->nm_kursus }}</option>
                         @endforeach
                     </select>
+                    @error('kd_kursus')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
         </div>
@@ -68,17 +71,21 @@
             <div class="col-md-6">
                 <label for="nilai">Nilai</label>
                 <div class="mb-2">
-                    <input class="form-control  @error('nilai') is-invalid @enderror" data-date-inline-picker="true" id="nilai" name="nilai" type="number"/>
+                    <input class="form-control  @error('nilai') is-invalid @enderror" data-date-inline-picker="true" id="nilai" name="nilai" type="number" value="{{ old('nilai',$score->nilai) }}"/>
                     @error('nilai')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
             <div class="col-md-6">
-                <label for="ket">Keterangan</label>
+                <label for="ket">Status</label>
                 <select class="form-control form-select" name="ket" id="ket">
-                    <option value="Lulus">Lulus</option>
-                    <option value="Tidak Lulus">Tidak Lulus</option>
+                    <option value="">Pilih status</option>
+                    <option value="Lulus" {{ ($score->ket == "Lulus") ? "selected" : "" }}>Lulus</option>
+                    <option value="Tidak Lulus" {{ ($score->ket == "Tidak Lulus") ? "selected" : ""}}>Tidak Lulus</option>
+                    @error('ket')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </select>
             </div>
         <div class="mt-4 mb-0">

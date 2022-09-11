@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\User;
+use App\Models\Score;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -148,7 +149,6 @@ class StudentController extends Controller
     {
         //update data siswa
         $rules = [
-            'password'=>'required|confirmed|min:8',
             'nis'=>'required|max:12',
             'nm_siswa'=>'required',
             'tgl_lhr'=>'required|date',
@@ -159,10 +159,6 @@ class StudentController extends Controller
             'gbr_siswa'=>'image|file|max:1024',
              ];
         $messages = [
-            'email.required'=>'Masukan Email',
-            'email.email'=>'Email tidak sesuai',
-            'password.required'=>'Masukan password',
-            'password.confirmed'=>'Kedua password harus sama',
             'nis.required' => 'Masukan NIS',
             'nis.max'=>'Maksimum NIS 12 digit',
             'nm_siswa.required'=>'Masukan nama lengkap',
@@ -176,7 +172,6 @@ class StudentController extends Controller
             'gbr_siswa.max'=>'Ukuran gambar 1MB'
         ];
         $validate= $request->validate($rules,$messages);
-        $password = Hash::make($request->password);
         $id_siswa = $request->id_siswa;
         //update siswa
         if($request->file('gbr_siswa')){
@@ -192,15 +187,14 @@ class StudentController extends Controller
         $student->alamat = $request->alamat;
         $student->no_telp = $request->no_telp;
         $student->gbr_siswa = $validate['gbr_siswa'];
-        $student->save();
+        $updated = $student->save();
 
-        // update user
-        $user = User::find($request->id_user);
-        $user->email = $request->email;
-        $user->password = $password;
-        $user->save();
+        if($updated){
 
-        return back()->with('message','Data siswa berhasil disimpan.');
+            return back()->with('message','Data siswa berhasil diperbarui.');
+        }else{
+            return back()->with('error','Data siswa gagal diperbarui.');
+        }
     }
     /**
      * Remove the specified resource from storage.
@@ -210,12 +204,14 @@ class StudentController extends Controller
      */
     public function destroy($id_siswa)
     {
-        //
-        $student = Student::find($id_siswa);
+
+        $student = DB::table('siswa')->where('id_siswa',$id_siswa)->first();
         $user = User::find($student->id_user);
-        FILE::delete($student->gbr_siswa);
+        $nilai = Score::find($id_siswa);
+        unlink(public_path('storage/siswa').$student->gbr_siswa);
         $user->forceDelete();
         $student->forceDelete();
+        $nilai->forceDelete();
         return redirect('siswa')->with('message','Data siswa berhasil dihapus');
     }
 }

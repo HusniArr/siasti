@@ -124,48 +124,14 @@
                     <div class="file-drop-area">
                         <span class="choose-file-button">Upload Gambar</span>
                         <span class="file-message">Drag dan drop file disini</span>
-                        <input type="hidden" name="gbr_lama" id="gbr_lama" value="{{ $student->gbr_siswa }}">
-                        <input class="file-input" type="file" id="gbr_siswa" name="gbr_siswa">
-                      </div>
+                        <input class="file-input" type="file" id="gbr_siswa" name="gbr_siswa" accept="image/*">
+                    </div>
+                    <input type="hidden" name="gbr_lama" id="gbr_lama" value="{{ $student->gbr_siswa }}">
                 </div>
                 @error('gbr_instr')
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
 
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <div class="form-floating mb-2">
-                    <input class="form-control" id="username" name="username" type="text" placeholder="Masukan Username" value="{{ old('username',$user->username) }}" autocomplete="off" disabled/>
-                    <label for="username">Usename</label>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-floating mb-2">
-                    <input class="form-control @error('email') is-invalid @enderror" id="email" name="email" type="email" placeholder="Masukan Email" value="{{ old('email',$user->email) }}" autocomplete="off" autofocus/>
-                    <label for="email">Email</label>
-                </div>
-                @error('email')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <div class="form-floating mb-2">
-                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" type="text" placeholder="Masukan Password" autocomplete="off" autofocus/>
-                    <label for="password">Password</label>
-                </div>
-                @error('password')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="col-md-6">
-                <div class="form-floating mb-2">
-                    <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" type="password_confirmation" autocomplete="off" autofocus/>
-                    <label for="password_confirmation">Ulangi Password</label>
-                </div>
             </div>
         </div>
         <div class="mt-4 mb-0">

@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('instruktur', function (Blueprint $table) {
-            $table->string('kd_instr',14)->primary();
+            $table->string('id')->primary();
+            $table->string('kd_instr',14);
             $table->string('nm_instr',150);
             $table->date('tgl_lhr');
             $table->string('tpt_lhr',100);

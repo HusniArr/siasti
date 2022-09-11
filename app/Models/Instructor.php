@@ -10,8 +10,9 @@ class Instructor extends Model
     use HasFactory;
 
     protected $table = 'instruktur';
-    protected $primaryKey = 'kd_instr';
+    protected $primaryKey = 'id';
     protected $fillable = [
+        'id',
         'kd_instr',
         'nm_instr',
         'tgl_lhr',
