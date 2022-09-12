@@ -60,7 +60,7 @@ class AttendanceController extends Controller
         $validate = $request->validate($rules,$messages);
         $tgl = date_create($validate['tgl']);
         $jam = date_create($validate['jam']);
-        $attendances = Attendance::all();
+        $attendances = DB::table('absensi')->where('id_siswa',$validate['id_siswa'])->get();
         foreach($attendances as $item){
             if($item->tgl == date_format($tgl,"Y-m-d")){
                 return back()->with('error',"Maaf, presensi tidak bisa dilakukan kembali di tanggal yang sama karena Anda sudah melakukanya di hari ini.");
