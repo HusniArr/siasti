@@ -57,6 +57,9 @@ Route::post('presensi/simpan',[AttendanceController::class,'store'])->name('pres
 Route::get('pengaturan/profil',[StudentController::class,'show'])->name('pengaturan.profil')->middleware('auth');
 Route::get('pengaturan/sandi',[UserController::class,'show'])->name('pengaturan.sandi')->middleware('auth');
 Route::post('pengaturan/sandi',[UserController::class,'update'])->name('pengaturan.simpan_sandi');
+Route::get('laporan/absensi',[AttendanceController::class,'report'])->name('laporan.absensi')->middleware('admin');
+Route::get('laporan/show_report',[AttendanceController::class,'showReport'])->name('laporan.show')->middleware('admin');
+Route::get('laporan/export_excel',[AttendanceController::class,'exportExcel'])->name('laporan.export_excel')->middleware('admin');
 Route::get('403',function(){
     return view('pages.error403');
 })->name('error.403');

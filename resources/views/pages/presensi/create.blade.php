@@ -45,9 +45,14 @@
                 <div class="mb-2">
                     <select class="form-control form-select @error('id_siswa') is-invalid @enderror" name="id_siswa" id="id_siswa">
                             <option value="">Pilih NIS atau nama siswa</option>
-                        @foreach ($students as $item)
+                        @if (Auth::user()->level == 'admin')
+                            @foreach ($students as $item)
                             <option value="{{ $item->id_siswa }}">{{ $item->nis }} | {{ $item->nm_siswa }}</option>
-                        @endforeach
+                            @endforeach
+                        @endif
+                        @if (Auth::user()->level == 'siswa')
+                            <option value="{{ $student->id_siswa }}">{{ $student->nis }} | {{ $student->nm_siswa }}</option>
+                        @endif
                     </select>
                     @error('id_siswa')
                         <div class="invalid-feedback">{{ $message }}</div>

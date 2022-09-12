@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Exports\AttendanceExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,10 +29,12 @@ class AttendanceController extends Controller
      */
     public function create()
     {
+        $student = DB::table('siswa')->where('id_user',Auth::user()->id)->first();
         $students = DB::table('siswa')->get();
         $courses = DB::table('kursus')->get();
         $data = [
             'title'=>'Presensi',
+            'student'=>$student,
             'students'=>$students,
             'courses'=>$courses
         ];
@@ -88,11 +92,52 @@ class AttendanceController extends Controller
      * @param  \App\Models\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function show(Attendance $attendance)
-    {
-        //
+
+
+    public function report(){
+        $data = [
+            'title'=>'Laporan Absensi',
+            'query'=>null
+        ];
+        return view('pages.laporan.absensi',$data);
     }
 
+    public function showReport(Request $request)
+    {
+        $rules = [
+            'tgl_mulai'=>'required',
+            'tgl_akhir'=>'required'
+        ];
+        $messages = [
+            'tgl_mulai.required' => 'Masukan tanggal mulai pencarian',
+            'tgl_akhir.required' => 'Masukan tanggal akhir pencarian'
+        ];
+        $validate = $request->validate($rules,$messages);
+        $tgl_mulai = date_format(date_create($validate['tgl_mulai']),'Y-m-d');
+        $tgl_akhir = date_format(date_create($validate['tgl_akhir']),'Y-m-d');
+        $query = DB::table('absensi')
+                ->whereBetween('tgl',[$tgl_mulai,$tgl_akhir],'and')
+                ->leftJoin('siswa','siswa.id_siswa','=','absensi.id_siswa')
+                ->leftJoin('kursus','kursus.id','=','absensi.id_kursus')
+                ->select('absensi.*','siswa.nis','siswa.nm_siswa','kursus.nm_kursus')
+                ->get();
+        // dd($query);
+        $data = [
+            'title' => 'Laporan absensi siswa',
+            'query' => $query
+        ];
+        return view('pages.laporan.absensi',$data);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $tgl_mulai = date_format(date_create($request->get('tgl_mulai')),'Y-m-d');
+        $tgl_akhir = date_format(date_create($request->get('tgl_akhir')),'Y-m-d');
+
+        $data = new AttendanceExport($tgl_mulai,$tgl_akhir);
+        dd($data);
+        return Excel::download(new AttendanceExport($tgl_mulai,$tgl_akhir), 'laporan absensi siswa.xlsx');
+    }
     /**
      * Show the form for editing the specified resource.
      *

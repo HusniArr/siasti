@@ -35,7 +35,7 @@
 
 
                     <div class="sb-sidenav-menu-heading text-white">Laporan</div>
-                        <a class="nav-link text-white" href="#">
+                        <a class="nav-link text-white" href="{{ route('laporan.absensi') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area text-white"></i></div>
                             Absensi Siswa
                         </a>
