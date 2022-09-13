@@ -180,11 +180,24 @@ class StudentController extends Controller
         $validate= $request->validate($rules,$messages);
         $id_siswa = $request->id_siswa;
         $student = Student::find($id_siswa);
-        if($request->gbr_lama == null){
+        if($request->gbr_lama == null && $request->file('gbr_siswa')){
 
             $validate['gbr_siswa'] = $request->file('gbr_siswa')->store('siswa');
+            //update siswa
+            $student->nis = $request->nis;
+            $student->nm_siswa = $request->nm_siswa;
+            $student->tgl_lhr = $request->tgl_lhr;
+            $student->tpt_lhr = $request->tpt_lhr;
+            $student->jns_kel = $request->jns_kel;
+            $student->alamat = $request->alamat;
+            $student->no_telp = $request->no_telp;
+            $student->gbr_siswa = $validate['gbr_siswa'];
+            $updated = $student->save();
+        }elseif($request->gbr_lama !== null && $request->file('gbr_siswa')){
+            
+            $validate['gbr_siswa'] = $request->file('gbr_siswa')->store('siswa');
             // hapus gbr lama
-            // Storage::delete($student->gbr_siswa);
+            Storage::delete($student->gbr_siswa);
 
             //update siswa
             $student->nis = $request->nis;
