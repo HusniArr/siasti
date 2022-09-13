@@ -32,11 +32,10 @@
 
     </div>
     @endif
-    <h1 class="mt-4">Siswa</h1>
+    <h1 class="mt-4">User</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('siswa') }}">Siswa</a></li>
-        <li class="breadcrumb-item active">Tambah</li>
+        <li class="breadcrumb-item active">User</li>
     </ol>
     <form action="{{ route('pengaturan.simpan_sandi')}}" method="POST" enctype="multipart/form-data">
         @csrf

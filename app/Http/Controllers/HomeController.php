@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\Student;
+use App\Models\Instructor;
+use App\Models\User;
+use App\Models\Course;
 
 class HomeController extends Controller
 {
@@ -18,7 +23,18 @@ class HomeController extends Controller
     {
         if(Auth::user()){
             // load view dashboard page
-            $data['title'] = 'LKP Techno Informatika';
+            $count_student = Student::all()->count();
+            $count_instr = Instructor::all()->count();
+            $count_user = User::all()->count();
+            $count_course = Course::all()->count();
+            $data = [
+                'title'=>'LKP Techno Informatika',
+                'count_student' => $count_student,
+                'count_instr' => $count_instr,
+                'count_user' => $count_user,
+                'count_course' => $count_course
+            ];
+
             return view('pages.home',$data);
         }else{
             return redirect('/login');

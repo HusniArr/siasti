@@ -60,6 +60,7 @@ Route::post('pengaturan/sandi',[UserController::class,'update'])->name('pengatur
 Route::get('laporan/absensi',[AttendanceController::class,'report'])->name('laporan.absensi')->middleware('admin');
 Route::get('laporan/show_report',[AttendanceController::class,'showReport'])->name('laporan.show')->middleware('admin');
 Route::get('laporan/export_excel',[AttendanceController::class,'exportExcel'])->name('laporan.export_excel')->middleware('admin');
+Route::get('laporan/export_pdf',[AttendanceController::class,'exportPdf'])->name('laporan.export_pdf')->middleware('admin');
 Route::get('403',function(){
     return view('pages.error403');
 })->name('error.403');
