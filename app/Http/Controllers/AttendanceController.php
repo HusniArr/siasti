@@ -134,7 +134,7 @@ class AttendanceController extends Controller
         $tgl_mulai = date_format(date_create($request->get('tgl_mulai')),'Y-m-d');
         $tgl_akhir = date_format(date_create($request->get('tgl_akhir')),'Y-m-d');
 
-        return Excel::download(new AttendanceExport($tgl_mulai,$tgl_akhir), 'laporan absensi siswa.xlsx');
+        return Excel::download(new AttendanceExport($tgl_mulai,$tgl_akhir),'lap.absensi siswa mulai '.$tgl_mulai.' sampai dengan '.$tgl_akhir.'.xlsx');
     }
 
     public function exportPdf(Request $request)
@@ -142,7 +142,7 @@ class AttendanceController extends Controller
         $tgl_mulai = date_format(date_create($request->get('tgl_mulai')),'Y-m-d');
         $tgl_akhir = date_format(date_create($request->get('tgl_akhir')),'Y-m-d');
 
-        return Excel::download(new AttendanceExport($tgl_mulai,$tgl_akhir), 'laporan absensi siswa.pdf');
+        return Excel::download(new AttendanceExport($tgl_mulai,$tgl_akhir),'lap.absensi siswa mulai '.$tgl_mulai.' sampai dengan '.$tgl_akhir.'.pdf');
     }
     /**
      * Show the form for editing the specified resource.

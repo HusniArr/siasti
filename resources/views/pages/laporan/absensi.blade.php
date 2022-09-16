@@ -54,7 +54,7 @@
             <div class="col-md-4">
                 <button class="btn btn-md btn-outline-primary" type="submit" name="btnSearch" id="btnSearch"><i class="fas fa-search fa-fw"></i> Cari</button>
                 <a href="{{ url('laporan/export_excel?tgl_mulai='.Request::get('tgl_mulai').'&tgl_akhir='.Request::get('tgl_akhir').'')}}" class="btn btn-md btn-outline-success export-excel" ><i class="far fa-file-excel fa-fw"></i>Export Excel</a>
-                {{-- <a href="{{ url('laporan/export_pdf?tgl_mulai='.Request::get('tgl_mulai').'&tgl_akhir='.Request::get('tgl_akhir').'')}}" class="btn btn-md btn-outline-danger export-pdf" ><i class="far fa-file-excel fa-fw"></i>Export Pdf</a> --}}
+                <a href="{{ url('laporan/export_pdf?tgl_mulai='.Request::get('tgl_mulai').'&tgl_akhir='.Request::get('tgl_akhir').'')}}" class="btn btn-md btn-outline-danger export-pdf" ><i class="far fa-file-excel fa-fw"></i>Export Pdf</a>
             </div>
         </div>
     </form>

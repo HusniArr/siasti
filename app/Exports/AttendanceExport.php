@@ -10,7 +10,7 @@ use App\Models\Attendance;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class AttendanceExport implements FromCollection,WithMapping
+class AttendanceExport implements FromCollection,WithMapping,WithHeadings
 {
 
 

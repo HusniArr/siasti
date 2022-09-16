@@ -41,6 +41,16 @@ class HomeController extends Controller
         }
     }
 
+
+    /*
+    fitur pencarian informasi siswa dan pengajar
+    */
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+        
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -50,6 +60,7 @@ class HomeController extends Controller
     {
         //
     }
+
 
     /**
      * Store a newly created resource in storage.
