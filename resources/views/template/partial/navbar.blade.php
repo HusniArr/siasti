@@ -5,10 +5,11 @@
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <form action="{{ route('cari.data') }}" method="POST" class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            @csrf
             <div class="input-group">
-                <input class="form-control" type="text" placeholder="Cari informasi siswa atau pengajar." aria-label="Search for..." aria-describedby="btnNavbarSearch" style="width:400px"/>
-                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                <input class="form-control" type="text" name="keyword" id="keyword" placeholder="Cari data siswa atau pengajar disini" aria-label="Cari nama ..." aria-describedby="btnNavbarSearch" style="width:400px" autocomplete="off"/>
+                <button type="submit" class="btn btn-primary" id="btnNavbarSearch"><i class="fas fa-search"></i></button>
             </div>
         </form>
         <!-- Navbar-->

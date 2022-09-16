@@ -2,6 +2,21 @@
 
 @section('content')
 
+@if(Session::has('success'))
+<div class="position-relative" aria-live="polite" aria-atomic="true">
+    <div class="toast-container top-0 end-0 p-3">
+        <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="2000" >
+            <div class="toast-body  bg-primary text-white">
+                <i class="fas fa-circle-check fa-fw"></i>
+                {{ Session::get('success') }}
+                <button type="button" class="btn-close btn-sm btn-white float-sm-end" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+@endif
 @if(session('error'))
 <div class="position-relative" aria-live="polite" aria-atomic="true" id="myToast">
     <div class="toast-container top-0 end-0 p-3">
@@ -70,7 +85,11 @@
                     <i class="fas fa-chart-area me-1"></i>
                     Area Chart Example
                 </div>
-                <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                <div class="card-body"  width="100%" height="40">
+                    <div id="app" width="100%" height="40">
+                        {!! $chart_line->container() !!}
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-xl-6">
@@ -79,11 +98,26 @@
                     <i class="fas fa-chart-bar me-1"></i>
                     Bar Chart Example
                 </div>
-                <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                <div class="card-body">
+                    <div id="myBarChart">
+                        {!! $chart_bar->container() !!}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
 </div>
-
+<script src="https://unpkg.com/vue"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+    });
+    var bar = new Vue({
+        el: '#myBarChart',
+    });
+</script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/echarts/4.0.2/echarts-en.min.js charset=utf-8></script>
+{!! $chart_line->script() !!}
+{!! $chart_bar->script() !!}
 @endsection

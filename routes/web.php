@@ -24,7 +24,7 @@ Route::get('/', [HomeController::class,'index'])->name('dashboard')->middleware(
 Route::get('login', [UserController::class,'login'])->name('login')->middleware('guest');
 Route::post('login',[UserController::class,'authenticate']);
 Route::get('logout',[UserController::class,'logout']);
-Route::get('register/admin',[UserController::class,'createAdmin']);
+Route::get('register/admin_techno',[UserController::class,'createAdmin'])->name('register.admin');
 Route::get('register',[UserController::class,'create']);
 Route::post('user/store',[UserController::class,'store'])->name('store.siswa');
 Route::post('admin/store',[UserController::class,'saveAdmin'])->name('store.admin');
@@ -61,6 +61,7 @@ Route::get('laporan/absensi',[AttendanceController::class,'report'])->name('lapo
 Route::get('laporan/show_report',[AttendanceController::class,'showReport'])->name('laporan.show')->middleware('admin');
 Route::get('laporan/export_excel',[AttendanceController::class,'exportExcel'])->name('laporan.export_excel')->middleware('admin');
 Route::get('laporan/export_pdf',[AttendanceController::class,'exportPdf'])->name('laporan.export_pdf')->middleware('admin');
+Route::post('cari/data',[HomeController::class,'search'])->name('cari.data')->middleware('auth');
 Route::get('403',function(){
     return view('pages.error403');
 })->name('error.403');

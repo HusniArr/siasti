@@ -9,6 +9,7 @@ use App\Models\Student;
 use App\Models\Instructor;
 use App\Models\User;
 use App\Models\Course;
+use App\Charts\sampleChart;
 
 class HomeController extends Controller
 {
@@ -27,12 +28,22 @@ class HomeController extends Controller
             $count_instr = Instructor::all()->count();
             $count_user = User::all()->count();
             $count_course = Course::all()->count();
+            $data_chart = collect([]);
+            $data_chart->push($count_student,$count_instr,$count_user,$count_course);
+            $chart_line = new sampleChart;
+            $chart_bar = new sampleChart;
+            $chart_line->labels(['Siswa','Pengajar','Pengguna','Kelas']);
+            $chart_line->dataset('Jumlah Data','line',$data_chart)->options(['backgroundColor'=>'#198754']);
+            $chart_bar->labels(['Siswa','Pengajar','Pengguna','Kelas']);
+            $chart_bar->dataset('Jumlah Data','bar',$data_chart)->options(['backgroundColor'=>'#0d6efd']);
             $data = [
                 'title'=>'LKP Techno Informatika',
                 'count_student' => $count_student,
                 'count_instr' => $count_instr,
                 'count_user' => $count_user,
-                'count_course' => $count_course
+                'count_course' => $count_course,
+                'chart_line'=>$chart_line,
+                'chart_bar'=>$chart_bar
             ];
 
             return view('pages.home',$data);
@@ -47,8 +58,33 @@ class HomeController extends Controller
     */
     public function search(Request $request)
     {
-        $keyword = $request->keyword;
-        
+        $students = Student::where([
+            ['nm_siswa','!=',NULL],
+            [function($query) use ($request){
+                if(($keyword = $request->keyword)){
+                    $query->orWhere('nm_siswa','LIKE','%'.$keyword.'%')
+                    ->orWhere('nis','LIKE','%'.$keyword.'%')
+                    ->get();
+                }
+            }]
+        ])->paginate(6);
+        $instr = Instructor::where([
+            ['nm_instr','!=',NULL],
+            [function($query) use ($request){
+                if(($keyword = $request->keyword)){
+                    $query->orWhere('nm_instr','LIKE','%'.$keyword.'%')
+                    ->orWhere('kd_instr','LIKE','%'.$keyword.'%')
+                    ->get();
+                }
+            }]
+        ])->paginate(6);
+
+        $data = [
+            'title'=>'Pencarian Data',
+            'data_student'=>$students,
+            'data_instr'=>$instr
+        ];
+        return view('pages.cari.index',$data);
     }
 
     /**
