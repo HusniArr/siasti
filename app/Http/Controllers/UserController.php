@@ -82,6 +82,21 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function getAdmin(){
+        $query = User::where('level','admin')->get();
+        $data = [
+            'title'=>'Admin',
+            'query'=>$query
+        ];
+        return view('pages.admin.index',$data);
+    }
+
+    public function newAdmin()
+    {
+        $data =['title'=>'Tambah Admin'];
+        return view('pages.admin.create',$data);
+    }
+
     public function saveAdmin(Request $request){
         $rules = [
             'username'=>'required|max:20',
@@ -104,7 +119,7 @@ class UserController extends Controller
         $checkEmailUser = DB::table('users')->where('email',$email)->first();
         $checkUsername = DB::table('users')->where('username',$username)->first();
         if($checkEmailUser || $checkUsername){
-            return redirect('register')->with('error','Username atau Email anda sudah terdaftar di sistem. Harap masukan email baru');
+            return back()->with('error','Username atau Email anda sudah terdaftar di sistem.');
         }else{
             $user = new User([
                 'username' => $username,
@@ -113,8 +128,75 @@ class UserController extends Controller
                 'level' => 'admin'
             ]);
             $user->save();
-            return back()->with('status','User berhasil ditambahkan. Silahkan login menggunakan akun baru.');
+            return back()->with('success','User berhasil ditambahkan. Silahkan login menggunakan akun baru.');
 
+        }
+    }
+
+    public function storeAdmin(Request $request){
+        $rules = [
+            'username'=>'required|max:20',
+            'email'=>'required|email',
+            'password'=>'required|confirmed|min:8',
+             ];
+        $messages = [
+            'username.required'=>'Masukan username Anda',
+            'username.max'=>'Maksimal panjang 20 karakter ',
+            'email.required'=>'Masukan Email Anda',
+            'email.email'=>'Email tidak sesuai',
+            'password.required'=>'Masukan password Anda',
+            'password.confirmed'=>'Kedua password harus sama',
+            'password.min'=>'Panjang password minimal 8 karakter'
+        ];
+        $request->validate($rules,$messages);
+        $username = $request->username;
+        $email = $request->email;
+        $password = Hash::make($request->password);
+        $checkEmailUser = DB::table('users')->where('email',$email)->first();
+        $checkUsername = DB::table('users')->where('username',$username)->first();
+        if($checkEmailUser || $checkUsername){
+            return back()->with('error','Data admin gagal ditambahkan.');
+        }else{
+            $user = new User([
+                'username' => $username,
+                'email' => $email,
+                'password' => $password,
+                'level' => 'admin'
+            ]);
+            $user->save();
+            return back()->with('success','Data admin berhasil disimpan.');
+
+        }
+    }
+
+    public function updateAdmin(Request $request,$id)
+    {
+        $rules = [
+            'username'=>'required|max:20',
+            'email'=>'required|email',
+            'password'=>'required|confirmed|min:8',
+             ];
+        $messages = [
+            'username.required'=>'Masukan username Anda',
+            'username.max'=>'Maksimal panjang 20 karakter ',
+            'email.required'=>'Masukan Email Anda',
+            'email.email'=>'Email tidak sesuai',
+            'password.required'=>'Masukan password Anda',
+            'password.confirmed'=>'Kedua password harus sama',
+            'password.min'=>'Panjang password minimal 8 karakter'
+        ];
+
+        $validate= $request->validate($rules,$messages);
+        $password = Hash::make($request->password);
+        $user = User::find($id);
+        $user->username = $validate['username'];
+        $user->email = $validate['email'];
+        $user->password = $password;
+        $success = $user->save();
+        if($success){
+            return back()->with('success','Data admin berhasil diperbarui');
+        }else{
+            return back()->with('error','Data admin gagal diperbarui');
         }
     }
 
@@ -192,7 +274,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        $data = [
+            'title'=>'Admin',
+            'user' =>$user
+        ];
+        return view('pages.admin.edit',$data);
     }
 
     /**
@@ -227,11 +314,12 @@ class UserController extends Controller
         $user->password = $password;
         $success = $user->save();
         if($success){
-            return back()->with('message','Data akun pengguna berhasil diperbarui');
+            return back()->with('success','Data akun pengguna berhasil diperbarui');
         }else{
             return back()->with('error','Data akun pengguna gagal diperbarui');
         }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -241,6 +329,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $deleted = $user->delete();
+        if($deleted){
+            return back()->with('success','Data admin berhasil dihapus');
+        }else{
+            return back()->with('error','Data admin gagal dihapus');
+        }
     }
 }

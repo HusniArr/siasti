@@ -20,6 +20,10 @@
                     @endif
                     @if (Auth::user()->level == 'admin')
                     <div class="sb-sidenav-menu-heading text-white"><b>Data Master</b> </div>
+                        <a class="nav-link collapsed text-white" href="{{ route('admin') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user-shield text-white"></i></div>
+                            Admin
+                        </a>
                         <a class="nav-link collapsed text-white" href="{{ route('instruktur') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-person-chalkboard text-white"></i></div>
                             Instruktur

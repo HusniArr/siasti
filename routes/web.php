@@ -28,6 +28,12 @@ Route::get('register/admin_techno',[UserController::class,'createAdmin'])->name(
 Route::get('register',[UserController::class,'create']);
 Route::post('user/store',[UserController::class,'store'])->name('store.siswa');
 Route::post('admin/store',[UserController::class,'saveAdmin'])->name('store.admin');
+Route::get('admin',[UserController::class,'getAdmin'])->name('admin')->middleware('admin');
+Route::get('admin/tambah',[UserController::class,'newAdmin'])->name('admin.tambah')->middleware('admin');
+Route::post('admin/simpan',[UserController::class,'storeAdmin'])->name('admin.simpan')->middleware('admin');
+Route::get('admin/{id}/edit',[UserController::class,'edit'])->name('admin.edit')->middleware('admin');
+Route::post('admin/{id}/edit',[UserController::class,'updateAdmin'])->name('admin.update')->middleware('admin');
+Route::get('admin/{id}/hapus',[UserController::class,'destroy'])->name('admin.hapus')->middleware('admin');
 Route::get('instruktur',[InstructorController::class,'index'])->name('instruktur')->middleware('admin');
 Route::get('instruktur/tambah',[InstructorController::class,'create'])->name('instruktur.tambah')->middleware('admin');
 Route::post('instruktur/tambah',[InstructorController::class,'store'])->name('instruktur.simpan');

@@ -61,10 +61,10 @@
         </div>
         <div class="col-xl-3 col-md-6">
             <div class="card bg-success text-white mb-4">
-                <div class="card-body">Pengguna</div>
+                <div class="card-body">Admin</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <h4 class="small text-white">{{ $count_user }} <i class="fas fa-users"></i></h4>
-                    <a class="small text-white stretched-link" href="{{ route('siswa') }}">Lihat</a>
+                    <h4 class="small text-white">{{ $count_admin }} <i class="fas fa-user-shield"></i></h4>
+                    <a class="small text-white stretched-link" href="{{ route('admin') }}">Lihat</a>
                 </div>
             </div>
         </div>

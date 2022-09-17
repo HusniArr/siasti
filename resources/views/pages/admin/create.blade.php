@@ -32,54 +32,57 @@
 
     </div>
     @endif
-    <h1 class="mt-4">User</h1>
+    <h1 class="mt-4">Admin</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item active">User</li>
+        <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin') }}">Admin</a></li>
+        <li class="breadcrumb-item active">Tambah</li>
     </ol>
-    <form action="{{ route('pengaturan.simpan_sandi')}}" method="POST" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('admin.simpan')}}">
         @csrf
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control @error('username') is-invalid @enderror" id="username" name="username" type="text" value="{{ old('username',$user->username) }}" autocomplete="off" autofocus/>
-                    <label for="username">Usename</label>
+                    <input class="form-control @error('username') is-invalid @enderror" id="username" name="username" type="text" placeholder="Enter your name" autocomplete="off"/>
+                    <label for="name">Username</label>
+                    @error('username')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
-                @error('username')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
             </div>
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input class="form-control @error('email') is-invalid @enderror" id="email" name="email" type="email" value="{{ old('email',$user->email) }}" autocomplete="off" autofocus/>
+                    <input class="form-control @error('email') is-invalid @enderror" id="email" name="email" type="text" placeholder="name@example.com" autocomplete="off"/>
                     <label for="email">Email</label>
+                    @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
-                @error('email')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
             </div>
         </div>
+
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" type="text"  autocomplete="off" autofocus/>
+                    <input class="form-control @error('password') is-invalid @enderror" id="password" name="password" type="password" placeholder="Create a password" />
                     <label for="password">Password</label>
+                    @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
-                @error('password')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
             </div>
             <div class="col-md-6">
                 <div class="form-floating mb-2">
-                    <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" type="password_confirmation" autocomplete="off" autofocus/>
+                    <input class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" type="password" placeholder="Confirm password" />
                     <label for="password_confirmation">Ulangi Password</label>
                 </div>
+
             </div>
         </div>
-        <input type="hidden" name="id" id="id" value="{{ $user->id }}">
         <div class="mt-4 mb-0">
-            <div class="d-grid"><button type="submit" class="btn btn-primary btn-block" >SIMPAN DATA</button></div>
+            <div class="d-grid"><button type="submit" class="btn btn-primary btn-block" >Simpan</button></div>
         </div>
     </form>
+
 </div>
 @endsection

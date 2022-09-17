@@ -32,16 +32,18 @@
 
     </div>
     @endif
-    <h1 class="mt-4">User</h1>
+    <h1 class="mt-4">Admin</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item active">User</li>
+        <li class="breadcrumb-item"><a href="{{ route('admin') }}">Admin</a></li>
+        <li class="breadcrumb-item active">Edit</li>
     </ol>
-    <form action="{{ route('pengaturan.simpan_sandi')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.update',$user->id)}}" method="POST">
         @csrf
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating mb-2">
+                    <input type="hidden" id="id" name="id" value="{{ $user->id }}">
                     <input class="form-control @error('username') is-invalid @enderror" id="username" name="username" type="text" value="{{ old('username',$user->username) }}" autocomplete="off" autofocus/>
                     <label for="username">Usename</label>
                 </div>

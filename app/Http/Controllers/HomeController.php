@@ -26,10 +26,10 @@ class HomeController extends Controller
             // load view dashboard page
             $count_student = Student::all()->count();
             $count_instr = Instructor::all()->count();
-            $count_user = User::all()->count();
+            $count_admin = User::where('level','admin')->count();
             $count_course = Course::all()->count();
             $data_chart = collect([]);
-            $data_chart->push($count_student,$count_instr,$count_user,$count_course);
+            $data_chart->push($count_student,$count_instr,$count_admin,$count_course);
             $chart_line = new sampleChart;
             $chart_bar = new sampleChart;
             $chart_line->labels(['Siswa','Pengajar','Pengguna','Kelas']);
@@ -40,7 +40,7 @@ class HomeController extends Controller
                 'title'=>'LKP Techno Informatika',
                 'count_student' => $count_student,
                 'count_instr' => $count_instr,
-                'count_user' => $count_user,
+                'count_admin' => $count_admin,
                 'count_course' => $count_course,
                 'chart_line'=>$chart_line,
                 'chart_bar'=>$chart_bar

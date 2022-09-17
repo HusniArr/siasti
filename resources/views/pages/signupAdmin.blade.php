@@ -2,13 +2,13 @@
 
 @section('auth-content')
 
-@if(Session::has('status'))
+@if(Session::has('success'))
 <div class="position-relative" aria-live="polite" aria-atomic="true">
     <div class="toast-container top-0 end-0 p-3">
         <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="2000" >
             <div class="toast-body  bg-primary text-white">
                 <i class="fas fa-circle-check fa-fw"></i>
-                {{ Session::get('status') }}
+                {{ Session::get('success') }}
                 <button type="button" class="btn-close btn-sm btn-white float-sm-end" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
