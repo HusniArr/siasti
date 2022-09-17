@@ -48,6 +48,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Kode Kursus</th>
                         <th>Nama Kursus</th>
                         <th>Jenjang</th>
                         <th>Jadwal Kursus</th>
@@ -61,6 +62,7 @@
 
                         <tr>
                             <td>{{ $loop->iteration }}.</td>
+                            <td>{{ $course->kd_kursus }}</td>
                             <td>{{ $course->nm_kursus }}</td>
                             <td>{{ $course->jenjang }}</td>
                             <td>{{ $course->jdwl_kursus }}</td>
