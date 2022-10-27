@@ -6,6 +6,7 @@ use App\Models\Score;
 use App\Models\Student;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ScoreController extends Controller
@@ -163,5 +164,25 @@ class ScoreController extends Controller
         }else{
             return back()->with('error','Data nilai gagal dihapus');
         }
+    }
+
+    public function passing_grade_details()
+    {
+        $id_user = Auth::user()->id;
+        $siswa = DB::table('siswa')
+                ->where('id_user','=',$id_user)
+                ->get();
+        // dd($siswa[0]->id_siswa);
+        $allData = DB::table('nilai')
+        ->leftJoin('siswa','siswa.id_siswa','=','nilai.id_siswa')
+        ->leftJoin('kursus','kursus.id','=','nilai.id_kursus')
+        ->select('nilai.*','siswa.nis','siswa.nm_siswa','kursus.nm_kursus')
+        ->where('siswa.id_siswa',$siswa[0]->id_siswa)
+        ->get();
+        $data = [
+            'title'=>'Lihat Nilai Kelulusan',
+            'allData'=>$allData
+        ];
+        return view('pages.nilai.passing_grade',$data);
     }
 }

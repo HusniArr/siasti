@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\Student;
 use App\Exports\AttendanceExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
@@ -97,7 +98,8 @@ class AttendanceController extends Controller
     public function report(){
         $data = [
             'title'=>'Laporan Absensi',
-            'query'=>null
+            'query'=>null,
+            'students'=>Student::all()
         ];
         return view('pages.laporan.absensi',$data);
     }
@@ -106,17 +108,19 @@ class AttendanceController extends Controller
     {
         $rules = [
             'tgl_mulai'=>'required',
-            'tgl_akhir'=>'required'
+            'tgl_akhir'=>'required',
         ];
         $messages = [
             'tgl_mulai.required' => 'Masukan tanggal mulai pencarian',
-            'tgl_akhir.required' => 'Masukan tanggal akhir pencarian'
+            'tgl_akhir.required' => 'Masukan tanggal akhir pencarian',
         ];
+        $cari_siswa = $request->cari_siswa;
         $validate = $request->validate($rules,$messages);
         $tgl_mulai = date_format(date_create($validate['tgl_mulai']),'Y-m-d');
         $tgl_akhir = date_format(date_create($validate['tgl_akhir']),'Y-m-d');
         $query = DB::table('absensi')
                 ->whereBetween('tgl',[$tgl_mulai,$tgl_akhir],'and')
+                ->where('siswa.nm_siswa','LIKE','%'.$cari_siswa.'%')
                 ->leftJoin('siswa','siswa.id_siswa','=','absensi.id_siswa')
                 ->leftJoin('kursus','kursus.id','=','absensi.id_kursus')
                 ->select('absensi.*','siswa.nis','siswa.nm_siswa','kursus.nm_kursus')
@@ -124,7 +128,8 @@ class AttendanceController extends Controller
         // dd($query);
         $data = [
             'title' => 'Laporan absensi siswa',
-            'query' => $query
+            'query' => $query,
+            'students'=>Student::all()
         ];
         return view('pages.laporan.absensi',$data);
     }

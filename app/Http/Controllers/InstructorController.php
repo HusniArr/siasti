@@ -67,6 +67,12 @@ class InstructorController extends Controller
             'gbr_instr.max'=>'Ukuran file maksimal 1 MB'
         ];
         $validate = $request->validate($rules,$messages);
+        $isExistNip = Instructor::where('kd_instr', '=', $validate['kd_instr'])->count();
+        $isExistName = Instructor::where('nm_instr', '=', $validate['nm_instr'])->count();
+        if($isExistNip || $isExistName){
+            return back()->with('error','Maaf data yang Anda masukan sudah ada di sistem');
+        }
+        
         if($request->file('gbr_instr')){
             $validate['gbr_instr'] = $request->file('gbr_instr')->store('instruktur');
         }

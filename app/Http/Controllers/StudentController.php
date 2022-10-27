@@ -77,40 +77,41 @@ class StudentController extends Controller
         ];
         $validate= $request->validate($rules,$messages);
         $password = Hash::make($request->password);
-        $checkEmailUser = DB::table('users')->where('email',$validate['email'])->first();
-        $checkUsername = DB::table('users')->where('username',$validate['username'])->first();
-        if($checkEmailUser || $checkUsername){
-            return back()->with('error','Username atau Email anda sudah ada');
-        }else{
-            // insert user
-            $user = new User([
-                'username' => $validate['username'],
-                'email' => $validate['email'],
-                'password' => $password,
-                'level' => 'siswa'
-            ]);
-            $user->save();
+        $checkEmailUser = User::where('email','=',$validate['email'])->get();
+        $checkStudentName = Student::where('nm_siswa','=',$validate['nm_siswa'])->get();
+        $checkNIS = Student::where('nis','=',$validate['nis'])->get();
+        if($checkEmailUser || $checkStudentName || $checkNIS){
+            return back()->with('error','Maaf, data Anda sudah ada di sistem.');
+        }
+        // insert user
+        $user = new User([
+            'username' => $validate['username'],
+            'email' => $validate['email'],
+            'password' => $password,
+            'level' => 'siswa'
+        ]);
+        $user->save();
 
-            if($request->file('gbr_siswa')){
-                $validate['gbr_siswa'] = $request->file('gbr_siswa')->store('siswa');
-            }
+        if($request->file('gbr_siswa')){
+            $validate['gbr_siswa'] = $request->file('gbr_siswa')->store('siswa');
+        }
 
-            //insert siswa
-            $student = new Student([
-                'id_siswa'=>Str::random(40),
-                'nis'=>$validate['nis'],
-                'nm_siswa'=>$validate['nm_siswa'],
-                'tgl_lhr' =>$validate['tgl_lhr'],
-                'tpt_lhr'=>$validate['tpt_lhr'],
-                'jns_kel'=>$validate['jns_kel'],
-                'alamat'=>$validate['alamat'],
-                'no_telp'=>$validate['no_telp'],
-                'gbr_siswa'=>$validate['gbr_siswa'],
-                'id_user'=>$user->id
-            ]);
-            $student->save();
-            return back()->with('message','Data siswa berhasil disimpan.');
-    }
+        //insert siswa
+        $student = new Student([
+            'id_siswa'=>Str::random(40),
+            'nis'=>$validate['nis'],
+            'nm_siswa'=>$validate['nm_siswa'],
+            'tgl_lhr' =>$validate['tgl_lhr'],
+            'tpt_lhr'=>$validate['tpt_lhr'],
+            'jns_kel'=>$validate['jns_kel'],
+            'alamat'=>$validate['alamat'],
+            'no_telp'=>$validate['no_telp'],
+            'gbr_siswa'=>$validate['gbr_siswa'],
+            'id_user'=>$user->id
+        ]);
+         $student->save();
+         return back()->with('message','Data siswa berhasil disimpan.');
+
 
 }
     /**
@@ -180,7 +181,7 @@ class StudentController extends Controller
         $validate= $request->validate($rules,$messages);
         $id_siswa = $request->id_siswa;
         $student = Student::find($id_siswa);
-        if($request->gbr_lama == null && $request->file('gbr_siswa')){
+        if($request->gbr_lama == '' && $request->file('gbr_siswa')){
 
             $validate['gbr_siswa'] = $request->file('gbr_siswa')->store('siswa');
             //update siswa
@@ -193,8 +194,10 @@ class StudentController extends Controller
             $student->no_telp = $request->no_telp;
             $student->gbr_siswa = $validate['gbr_siswa'];
             $updated = $student->save();
-        }elseif($request->gbr_lama !== null && $request->file('gbr_siswa')){
-            
+        }
+
+        if($request->gbr_lama !== '' && $request->file('gbr_siswa')){
+
             $validate['gbr_siswa'] = $request->file('gbr_siswa')->store('siswa');
             // hapus gbr lama
             Storage::delete($student->gbr_siswa);
@@ -209,7 +212,9 @@ class StudentController extends Controller
             $student->no_telp = $request->no_telp;
             $student->gbr_siswa = $validate['gbr_siswa'];
             $updated = $student->save();
-        }else{
+        }
+
+        if(!$request->file('gbr_siswa')){
             //update siswa
             $student->nis = $request->nis;
             $student->nm_siswa = $request->nm_siswa;
@@ -242,7 +247,7 @@ class StudentController extends Controller
         $user = User::find($student->id_user);
 
         // hapus gbr siswa
-        unlink(public_path('storage/').$student->gbr_siswa);
+        // unlink(public_path('storage/').$student->gbr_siswa);
 
         $student->delete();
         $user->delete();

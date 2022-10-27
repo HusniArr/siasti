@@ -68,6 +68,7 @@ Route::get('laporan/show_report',[AttendanceController::class,'showReport'])->na
 Route::get('laporan/export_excel',[AttendanceController::class,'exportExcel'])->name('laporan.export_excel')->middleware('admin');
 Route::get('laporan/export_pdf',[AttendanceController::class,'exportPdf'])->name('laporan.export_pdf')->middleware('admin');
 Route::post('cari/data',[HomeController::class,'search'])->name('cari.data')->middleware('auth');
+Route::get('nilai/passing_grade_details',[ScoreController::class,'passing_grade_details'])->name('lihat.nilai_kelulusan')->middleware('auth');
 Route::get('403',function(){
     return view('pages.error403');
 })->name('error.403');

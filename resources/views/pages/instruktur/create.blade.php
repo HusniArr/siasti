@@ -17,6 +17,21 @@
 
     </div>
     @endif
+    @if(Session::has('error'))
+    <div class="position-relative" aria-live="polite" aria-atomic="true">
+        <div class="toast-container top-0 end-0">
+            <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="2000" >
+                <div class="toast-body  bg-danger text-white">
+                    <i class="fas fa-circle-check fa-fw"></i>
+                    {{ Session::get('error') }}
+                    <button type="button" class="btn-close btn-sm btn-white float-sm-end" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    @endif
     <h1 class="mt-4">Instruktur</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>

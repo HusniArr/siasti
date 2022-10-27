@@ -39,22 +39,30 @@
     </ol>
     <form action="{{ route('laporan.show') }}" method="GET">
         <div class="row mb-3">
-            <div class="col-md-4">
-                <input type="date" class="form-control @error('tgl_mulai') is-invalid @enderror" name="tgl_mulai" id="tgl_mulai" data-date-inline-picker="true">
+            <div class="col-md-3">
+                <input type="date" class="form-control form-control-sm @error('tgl_mulai') is-invalid @enderror" name="tgl_mulai" id="tgl_mulai" data-date-inline-picker="true">
                 @error('tgl_mulai')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            <div class="col-md-4">
-                <input type="date" class="form-control @error('tgl_akhir') is-invalid @enderror" name="tgl_akhir" id="tgl_akhir" data-date-inline-picker="true">
+            <div class="col-md-3">
+                <input type="date" class="form-control form-control-sm @error('tgl_akhir') is-invalid @enderror" name="tgl_akhir" id="tgl_akhir" data-date-inline-picker="true">
                 @error('tgl_akhir')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            <div class="col-md-4">
-                <button class="btn btn-md btn-outline-primary" type="submit" name="btnSearch" id="btnSearch"><i class="fas fa-search fa-fw"></i> Cari</button>
-                <a href="{{ url('laporan/export_excel?tgl_mulai='.Request::get('tgl_mulai').'&tgl_akhir='.Request::get('tgl_akhir').'')}}" class="btn btn-md btn-outline-success export-excel" ><i class="far fa-file-excel fa-fw"></i>Export Excel</a>
-                <a href="{{ url('laporan/export_pdf?tgl_mulai='.Request::get('tgl_mulai').'&tgl_akhir='.Request::get('tgl_akhir').'')}}" class="btn btn-md btn-outline-danger export-pdf" ><i class="far fa-file-excel fa-fw"></i>Export Pdf</a>
+            <div class="col-md-3">
+                <select name="cari_siswa" id="cari_siswa" class="form-select form-select-sm">
+                    <option value="">Cari siswa</option>
+                    @foreach ($students as $row)
+                        <option value="{{ $row->nm_siswa }}">{{ $row->nm_siswa }} </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-sm btn-outline-primary" type="submit" name="btnSearch" id="btnSearch"><i class="fas fa-search fa-fw"></i> Cari</button>
+                <a href="{{ url('laporan/export_excel?tgl_mulai='.Request::get('tgl_mulai').'&tgl_akhir='.Request::get('tgl_akhir').'')}}" class="btn btn-sm btn-outline-success export-excel" ><i class="far fa-file-excel fa-fw"></i>Export Excel</a>
+                <a href="{{ url('laporan/export_pdf?tgl_mulai='.Request::get('tgl_mulai').'&tgl_akhir='.Request::get('tgl_akhir').'')}}" class="btn btn-sm btn-outline-danger export-pdf" ><i class="far fa-file-excel fa-fw"></i>Export Pdf</a>
             </div>
         </div>
     </form>
@@ -90,4 +98,8 @@
         </table>
     </div>
 </div>
+<script>
+    $('#cari_siswa').select2();
+</script>
 @endsection
+

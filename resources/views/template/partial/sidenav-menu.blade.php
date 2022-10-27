@@ -11,6 +11,12 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-columns text-white"></i></div>
                         Presensi
                     </a>
+                    @if (Auth::user()->level == 'siswa')
+                        <a class="nav-link text-white" href="{{ route('lihat.nilai_kelulusan') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns text-white"></i></div>
+                            Lihat Nilai
+                        </a>
+                    @endif
                     @if (Auth::user()->level == 'admin')
                         <a class="nav-link text-white" href="{{ route('nilai') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns text-white"></i></div>
